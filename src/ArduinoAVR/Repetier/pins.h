@@ -588,7 +588,7 @@ STEPPER_CURRENT_CONTROL
 #define ORIG_Z_STEP_PIN         57
 #define ORIG_Z_DIR_PIN          56
 #define ORIG_Z_ENABLE_PIN       62
-#define ORIG_Z_MIN_PIN          33
+#define ORIG_Z_MIN_PIN          -1  //33  disables -> pin used for SPI chip select of MAX31855
 #define ORIG_Z_MAX_PIN          32
 
 #define ORIG_E0_STEP_PIN         23
@@ -617,10 +617,10 @@ STEPPER_CURRENT_CONTROL
 //optional FAN1 can be used as 4th heater output: #define HEATER_4_PIN       8    // EXTRUDER 4
 
 
-#define TEMP_0_PIN         15   // ANALOG NUMBERING
-#define TEMP_1_PIN         14   // ANALOG NUMBERING
-#define TEMP_2_PIN         13   // ANALOG NUMBERING
-#define TEMP_3_PIN         11   // ANALOG NUMBERING
+#define TEMP_0_PIN         33 // 15 // ANALOG NUMBERING - MAX31855 CS PIN!
+#define TEMP_1_PIN         14       // ANALOG NUMBERING
+#define TEMP_2_PIN         13       // ANALOG NUMBERING
+#define TEMP_3_PIN         11       // ANALOG NUMBERING
 //optional for extruder 4 or chamber: #define TEMP_2_PIN         12   // ANALOG NUMBERING
 
 

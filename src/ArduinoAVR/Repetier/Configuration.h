@@ -191,7 +191,7 @@ Overridden if EEPROM activated.*/
 // 100 is AD595
 // 101 is MAX6675
 // 102 is MAX31855
-#define EXT0_TEMPSENSOR_TYPE 1
+#define EXT0_TEMPSENSOR_TYPE 102
 // Analog input pin for reading temperatures or pin enabling SS for MAX6675
 #define EXT0_TEMPSENSOR_PIN TEMP_0_PIN
 // Which pin enables the heater
@@ -244,7 +244,7 @@ A good start is 30 lower then the optimal value. You need to leave room for cool
 */
 #define EXT0_PID_INTEGRAL_DRIVE_MIN 60
 /** P-gain.  Overridden if EEPROM activated. */
-#define EXT0_PID_P   2.8
+#define EXT0_PID_P   16
 /** I-gain. Overridden if EEPROM activated.
 */
 #define EXT0_PID_I   1.64
@@ -492,7 +492,7 @@ Value is used for all generic tables created. */
 // uncomment the following line for MAX6675 support.
 //#define SUPPORT_MAX6675
 // uncomment the following line for MAX31855 support.
-//#define SUPPORT_MAX31855
+#define SUPPORT_MAX31855
 
 // ############# Heated bed configuration ########################
 
@@ -545,11 +545,11 @@ A good start is 30 lower then the optimal value. You need to leave room for cool
 
 // When temperature exceeds max temp, your heater will be switched off.
 // This feature exists to protect your hotend from overheating accidentally, but *NOT* from thermistor short/failure!
-#define MAXTEMP 300
+#define MAXTEMP 400
 
 /** Extreme values to detect defect thermistors. */
 #define MIN_DEFECT_TEMPERATURE -10
-#define MAX_DEFECT_TEMPERATURE 301
+#define MAX_DEFECT_TEMPERATURE 401
 
 
 // ##########################################################################################
