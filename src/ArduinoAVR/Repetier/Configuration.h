@@ -220,7 +220,7 @@ Overridden if EEPROM activated.*/
 - 3 = Dead-time control. PID_P becomes dead-time in seconds.
  Overridden if EEPROM activated.
 */
-#define EXT0_HEAT_MANAGER 3
+#define EXT0_HEAT_MANAGER 1
 /** Wait x seconds, after reaching target temperature. Only used for M109.  Overridden if EEPROM activated. */
 #define EXT0_WATCHPERIOD 3
 
@@ -234,7 +234,7 @@ Values for starts:
 The precise values may differ for different nozzle/resistor combination.
  Overridden if EEPROM activated.
 */
-#define EXT0_PID_INTEGRAL_DRIVE_MAX 140
+#define EXT0_PID_INTEGRAL_DRIVE_MAX 180
 /** \brief lower value for integral part
 
 The I state should converge to the exact heater output needed for the target temperature.
@@ -244,12 +244,12 @@ A good start is 30 lower then the optimal value. You need to leave room for cool
 */
 #define EXT0_PID_INTEGRAL_DRIVE_MIN 60
 /** P-gain.  Overridden if EEPROM activated. */
-#define EXT0_PID_P   16
+#define EXT0_PID_P   5.74
 /** I-gain. Overridden if EEPROM activated.
 */
-#define EXT0_PID_I   1.64
+#define EXT0_PID_I   0.1844
 /** Dgain.  Overridden if EEPROM activated.*/
-#define EXT0_PID_D 58.32
+#define EXT0_PID_D 44.6978
 // maximum time the heater is can be switched on. Max = 255.  Overridden if EEPROM activated.
 #define EXT0_PID_MAX 255
 /** \brief Faktor for the advance algorithm. 0 disables the algorithm.  Overridden if EEPROM activated.
@@ -286,7 +286,7 @@ The codes are only executed for multiple extruder when changing the extruder. */
 #define EXT1_X_OFFSET 2078 // 1/16 microstepping
 #define EXT1_Y_OFFSET -21 // 1/16 microstepping
 #define EXT1_STEPS_PER_MM 500.69 // 1/8 microstepping
-#define EXT1_TEMPSENSOR_TYPE 1
+#define EXT1_TEMPSENSOR_TYPE 102
 #define EXT1_TEMPSENSOR_PIN TEMP_1_PIN
 #define EXT1_HEATER_PIN HEATER_1_PIN
 #define EXT1_STEP_PIN E1_STEP_PIN
@@ -297,13 +297,13 @@ The codes are only executed for multiple extruder when changing the extruder. */
 #define EXT1_MAX_FEEDRATE 24
 #define EXT1_MAX_START_FEEDRATE 5
 #define EXT1_MAX_ACCELERATION 3000
-#define EXT1_HEAT_MANAGER 3
+#define EXT1_HEAT_MANAGER 1
 #define EXT1_WATCHPERIOD 3
-#define EXT1_PID_INTEGRAL_DRIVE_MAX 140
+#define EXT1_PID_INTEGRAL_DRIVE_MAX 180
 #define EXT1_PID_INTEGRAL_DRIVE_MIN 60
-#define EXT1_PID_P 2.8
-#define EXT1_PID_I 1.64
-#define EXT1_PID_D 58.32
+#define EXT1_PID_P 5.74 
+#define EXT1_PID_I 0.1844 
+#define EXT1_PID_D 44.6978
 #define EXT1_PID_MAX 255
 #define EXT1_ADVANCE_K 0.0f
 #define EXT1_ADVANCE_L 0.0f
