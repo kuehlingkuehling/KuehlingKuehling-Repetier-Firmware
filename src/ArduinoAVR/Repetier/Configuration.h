@@ -247,9 +247,9 @@ A good start is 30 lower then the optimal value. You need to leave room for cool
 #define EXT0_PID_P   5.74
 /** I-gain. Overridden if EEPROM activated.
 */
-#define EXT0_PID_I   0.1844
+#define EXT0_PID_I   0.18
 /** Dgain.  Overridden if EEPROM activated.*/
-#define EXT0_PID_D 44.6978
+#define EXT0_PID_D 44.7
 // maximum time the heater is can be switched on. Max = 255.  Overridden if EEPROM activated.
 #define EXT0_PID_MAX 255
 /** \brief Faktor for the advance algorithm. 0 disables the algorithm.  Overridden if EEPROM activated.
@@ -301,9 +301,9 @@ The codes are only executed for multiple extruder when changing the extruder. */
 #define EXT1_WATCHPERIOD 3
 #define EXT1_PID_INTEGRAL_DRIVE_MAX 180
 #define EXT1_PID_INTEGRAL_DRIVE_MIN 60
-#define EXT1_PID_P 5.74 
-#define EXT1_PID_I 0.1844 
-#define EXT1_PID_D 44.6978
+#define EXT1_PID_P 5.74
+#define EXT1_PID_I 0.18
+#define EXT1_PID_D 44.7
 #define EXT1_PID_MAX 255
 #define EXT1_ADVANCE_K 0.0f
 #define EXT1_ADVANCE_L 0.0f
@@ -1004,7 +1004,7 @@ matches, the stored values are used to overwrite the settings.
 IMPORTANT: With mode <>0 some changes in Configuration.h are not set any more, as they are
            taken from the EEPROM.
 */
-#define EEPROM_MODE 134
+#define EEPROM_MODE 139
 
 
 /**************** duplicate motor driver ***************

@@ -617,8 +617,8 @@ STEPPER_CURRENT_CONTROL
 //optional FAN1 can be used as 4th heater output: #define HEATER_4_PIN       8    // EXTRUDER 4
 
 
-#define TEMP_0_PIN         A9 // MAX31855 CS PIN! // 15 // ANALOG NUMBERING
-#define TEMP_1_PIN         A10 // MAX31855 CS PIN! // 14 // ANALOG NUMBERING
+#define TEMP_0_PIN         A9 // MAX31855 CS PIN at EXP3.7// 15 // ANALOG NUMBERING
+#define TEMP_1_PIN         A10 // MAX31855 CS PIN at EXP3.8 // 14 // ANALOG NUMBERING
 #define TEMP_2_PIN         13       // ANALOG NUMBERING
 #define TEMP_3_PIN         11       // ANALOG NUMBERING
 //optional for extruder 4 or chamber: #define TEMP_2_PIN         12   // ANALOG NUMBERING

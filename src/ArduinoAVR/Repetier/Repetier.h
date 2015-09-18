@@ -23,7 +23,7 @@
 #define _REPETIER_H
 
 #define REPETIER_VERSION "0.91"
-#define REPRAPINDUSTRIAL_FIRMWARE_VERSION "0.91-rri1.2.0-02-dev-MAX31855"
+#define REPRAPINDUSTRIAL_FIRMWARE_VERSION "0.91-rri1.3.0-02-e400"
 
 // ##########################################################################################
 // ##                                  Debug configuration                                 ##
