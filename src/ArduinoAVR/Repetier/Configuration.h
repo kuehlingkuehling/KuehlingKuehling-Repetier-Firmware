@@ -191,7 +191,7 @@ Overridden if EEPROM activated.*/
 // 100 is AD595
 // 101 is MAX6675
 // 102 is MAX31855
-#define EXT0_TEMPSENSOR_TYPE 1
+#define EXT0_TEMPSENSOR_TYPE 5
 // Analog input pin for reading temperatures or pin enabling SS for MAX6675
 #define EXT0_TEMPSENSOR_PIN TEMP_0_PIN
 // Which pin enables the heater
@@ -286,7 +286,7 @@ The codes are only executed for multiple extruder when changing the extruder. */
 #define EXT1_X_OFFSET 2078 // 1/16 microstepping
 #define EXT1_Y_OFFSET -21 // 1/16 microstepping
 #define EXT1_STEPS_PER_MM 500.69 // 1/8 microstepping
-#define EXT1_TEMPSENSOR_TYPE 1
+#define EXT1_TEMPSENSOR_TYPE 5
 #define EXT1_TEMPSENSOR_PIN TEMP_1_PIN
 #define EXT1_HEATER_PIN HEATER_1_PIN
 #define EXT1_STEP_PIN E1_STEP_PIN
@@ -400,11 +400,13 @@ temperature*8.
 If you have a PTC thermistor instead of a NTC thermistor, keep the adc values increasing and use themistor types 50-52 instead of 5-7!
 */
 /** Number of entries in the user thermistor table 0. Set to 0 to disable it. */
+/** EPCOS thermistor with stainless steel barrel **/
 #define NUM_TEMPS_USERTHERMISTOR0 28
 #define USER_THERMISTORTABLE0  {\
-  {1*4,864*8},{21*4,300*8},{25*4,290*8},{29*4,280*8},{33*4,270*8},{39*4,260*8},{46*4,250*8},{54*4,240*8},{64*4,230*8},{75*4,220*8},\
-  {90*4,210*8},{107*4,200*8},{128*4,190*8},{154*4,180*8},{184*4,170*8},{221*4,160*8},{265*4,150*8},{316*4,140*8},{375*4,130*8},\
-  {441*4,120*8},{513*4,110*8},{588*4,100*8},{734*4,80*8},{856*4,60*8},{938*4,40*8},{986*4,20*8},{1008*4,0*8},{1018*4,-20*8}	}
+  {0,3920},{92, 2352},{105,2274},{121,2195},{140,2117},{162,2038},{189,1960},{222,1882},{261,1803},{308,1725},{365,1646},{434,1568},\
+  {519,1490},{621,1411},{744,1333},{891,1254},{1067, 1176},{1272, 1098},{1771, 941},{2357, 784},{2943, 627},{3429, 470},{3760, 314},\
+  {3869, 235},{3912, 196},{3948, 157},{4077, -157},{4094, -431} }
+
 
 /** Number of entries in the user thermistor table 1. Set to 0 to disable it. */
 #define NUM_TEMPS_USERTHERMISTOR1 0
