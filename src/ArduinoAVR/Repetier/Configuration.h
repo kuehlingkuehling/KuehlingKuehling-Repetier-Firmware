@@ -283,8 +283,8 @@ The codes are only executed for multiple extruder when changing the extruder. */
 
 
 // =========================== Configuration for second extruder ========================
-#define EXT1_X_OFFSET 2078 // 1/16 microstepping
-#define EXT1_Y_OFFSET -21 // 1/16 microstepping
+#define EXT1_X_OFFSET 0 // 1/16 microstepping
+#define EXT1_Y_OFFSET 0 // 1/16 microstepping
 #define EXT1_STEPS_PER_MM 500.69 // 1/8 microstepping
 #define EXT1_TEMPSENSOR_TYPE 5
 #define EXT1_TEMPSENSOR_PIN TEMP_1_PIN
