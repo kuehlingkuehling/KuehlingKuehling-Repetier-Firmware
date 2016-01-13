@@ -191,7 +191,7 @@ Overridden if EEPROM activated.*/
 // 100 is AD595
 // 101 is MAX6675
 // 102 is MAX31855
-#define EXT0_TEMPSENSOR_TYPE 5
+#define EXT0_TEMPSENSOR_TYPE 102
 // Analog input pin for reading temperatures or pin enabling SS for MAX6675
 #define EXT0_TEMPSENSOR_PIN TEMP_0_PIN
 // Which pin enables the heater
@@ -220,7 +220,7 @@ Overridden if EEPROM activated.*/
 - 3 = Dead-time control. PID_P becomes dead-time in seconds.
  Overridden if EEPROM activated.
 */
-#define EXT0_HEAT_MANAGER 3
+#define EXT0_HEAT_MANAGER 1
 /** Wait x seconds, after reaching target temperature. Only used for M109.  Overridden if EEPROM activated. */
 #define EXT0_WATCHPERIOD 3
 
@@ -234,7 +234,7 @@ Values for starts:
 The precise values may differ for different nozzle/resistor combination.
  Overridden if EEPROM activated.
 */
-#define EXT0_PID_INTEGRAL_DRIVE_MAX 140
+#define EXT0_PID_INTEGRAL_DRIVE_MAX 180
 /** \brief lower value for integral part
 
 The I state should converge to the exact heater output needed for the target temperature.
@@ -244,12 +244,12 @@ A good start is 30 lower then the optimal value. You need to leave room for cool
 */
 #define EXT0_PID_INTEGRAL_DRIVE_MIN 60
 /** P-gain.  Overridden if EEPROM activated. */
-#define EXT0_PID_P   2.8
+#define EXT0_PID_P   13.45
 /** I-gain. Overridden if EEPROM activated.
 */
-#define EXT0_PID_I   1.64
+#define EXT0_PID_I   1.10
 /** Dgain.  Overridden if EEPROM activated.*/
-#define EXT0_PID_D 58.32
+#define EXT0_PID_D 41.05
 // maximum time the heater is can be switched on. Max = 255.  Overridden if EEPROM activated.
 #define EXT0_PID_MAX 255
 /** \brief Faktor for the advance algorithm. 0 disables the algorithm.  Overridden if EEPROM activated.
@@ -494,7 +494,7 @@ Value is used for all generic tables created. */
 // uncomment the following line for MAX6675 support.
 //#define SUPPORT_MAX6675
 // uncomment the following line for MAX31855 support.
-//#define SUPPORT_MAX31855
+#define SUPPORT_MAX31855
 
 // ############# Heated bed configuration ########################
 
@@ -547,11 +547,11 @@ A good start is 30 lower then the optimal value. You need to leave room for cool
 
 // When temperature exceeds max temp, your heater will be switched off.
 // This feature exists to protect your hotend from overheating accidentally, but *NOT* from thermistor short/failure!
-#define MAXTEMP 300
+#define MAXTEMP 500
 
 /** Extreme values to detect defect thermistors. */
 #define MIN_DEFECT_TEMPERATURE -10
-#define MAX_DEFECT_TEMPERATURE 301
+#define MAX_DEFECT_TEMPERATURE 510
 
 
 // ##########################################################################################
