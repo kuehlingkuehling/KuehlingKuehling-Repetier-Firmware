@@ -1966,7 +1966,7 @@ int16_t read_max31855(uint8_t ss_pin)
 {
     uint32_t data = 0;
     int16_t temperature;
-    HAL::spiInit(2);
+    HAL::spiInit(1);
     HAL::digitalWrite(ss_pin, 0);  // enable TT_MAX31855
     HAL::delayMicroseconds(1);    // ensure 100ns delay - a bit extra is fine
 
