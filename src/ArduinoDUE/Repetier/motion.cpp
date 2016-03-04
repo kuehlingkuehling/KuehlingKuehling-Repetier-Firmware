@@ -50,6 +50,11 @@
 #error For MAX6675 support, you need to define SCK_PIN, MISO_PIN and MOSI_PIN in pins.h
 #endif
 #endif
+#ifdef SUPPORT_MAX31855
+#if !defined SCK_PIN || !defined MOSI_PIN || !defined MISO_PIN
+#error For MAX31855 support, you need to define SCK_PIN, MISO_PIN and MOSI_PIN in pins.h
+#endif
+#endif
 #if X_STEP_PIN<0 || Y_STEP_PIN<0 || Z_STEP_PIN<0
 #error One of the following pins is not assigned: X_STEP_PIN,Y_STEP_PIN,Z_STEP_PIN
 #endif
