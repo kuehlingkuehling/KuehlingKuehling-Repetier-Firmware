@@ -3015,6 +3015,23 @@ int UIDisplay::executeAction(unsigned int action, bool allowMoves)
     else
         switch(action)
         {
+        case UI_ACTION_OUT_OF_FILAMENT_LEFT:// OUT_OF_FILAMENT_LEFT:
+            Com::printFLN(PSTR("OutOfFilament:left"));
+            break; 
+        case UI_ACTION_OUT_OF_FILAMENT_RIGHT: // OUT_OF_FILAMENT_RIGHT:
+            Com::printFLN(PSTR("OutOfFilament:right"));
+            break;
+        case UI_ACTION_CHAMBER_HEATER_OVERTEMP_LEFT:// OUT_OF_FILAMENT_LEFT:
+            Com::printFLN(PSTR("ChamberOverheat:left"));
+            Com::printFLN(PSTR("Left Chamber Heater overheat safety switch was triggered!"));
+            Printer::flag0 |= PRINTER_FLAG0_TEMPSENSOR_DEFECT;
+            break; 
+        case UI_ACTION_CHAMBER_HEATER_OVERTEMP_RIGHT: // OUT_OF_FILAMENT_RIGHT:
+            Com::printFLN(PSTR("ChamberOverheat:right"));
+            Com::printFLN(PSTR("Right Chamber Heater overheat safety switch was triggered!"));
+            Printer::flag0 |= PRINTER_FLAG0_TEMPSENSOR_DEFECT;
+            break;     
+                      
         case UI_ACTION_OK:
             ret = okAction(allowMoves);
             break;

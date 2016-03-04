@@ -239,6 +239,11 @@
 #define UI_ACTION_LANGUAGE_TR           1710
 #define UI_ACTION_LANGUAGE_FI           1711
 
+#define UI_ACTION_OUT_OF_FILAMENT_LEFT  1900 // left filament endswitch triggered
+#define UI_ACTION_OUT_OF_FILAMENT_RIGHT 1901 // right filament endswitch triggered
+#define UI_ACTION_CHAMBER_HEATER_OVERTEMP_LEFT  1902 // left chamber heater over-temp safety switch
+#define UI_ACTION_CHAMBER_HEATER_OVERTEMP_RIGHT 1903 // right chamber heater over-temp safety switch  
+
 #define UI_ACTION_MENU_XPOS             4000
 #define UI_ACTION_MENU_YPOS             4001
 #define UI_ACTION_MENU_ZPOS             4002
