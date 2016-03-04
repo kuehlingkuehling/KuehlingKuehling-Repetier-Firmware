@@ -179,6 +179,7 @@ void Extruder::manageTemperatures()
             act->setAlarm(false);  //reset alarm
         }
 
+#if FEATURE_DECOUPLE_TEST
         // Run test if heater and sensor are decoupled
         bool decoupleTestRequired = !errorDetected && act->decoupleTestPeriod > 0 && (time - act->lastDecoupleTest) > act->decoupleTestPeriod; // time enough for temperature change?
         if(decoupleTestRequired && act->isDecoupleFullOrHold() && Printer::isPowerOn()) // Only test when powered
@@ -240,6 +241,7 @@ void Extruder::manageTemperatures()
                 }
             }
         }
+#endif        
 
 #if TEMP_PID
         act->tempArray[act->tempPointer++] = act->currentTemperatureC;
@@ -249,12 +251,16 @@ void Extruder::manageTemperatures()
         if(act->targetTemperatureC < 20.0f) // heating is off
         {
             output = 0; // off is off, even if damping term wants a heat peak!
+#if FEATURE_DECOUPLE_TEST            
             act->stopDecouple();
+#endif            
         }
         else if(error > PID_CONTROL_RANGE) // Phase 1: full heating until control range reached
         {
             output = act->pidMax;
+#if FEATURE_DECOUPLE_TEST            
             act->startFullDecouple(time);
+#endif            
         }
         else if(error < -PID_CONTROL_RANGE) // control range left upper side!
             output = 0;
@@ -262,7 +268,9 @@ void Extruder::manageTemperatures()
         {
             if(act->heatManager == HTR_PID)
             {
+#if FEATURE_DECOUPLE_TEST
                 act->startHoldDecouple(time);
+#endif
                 float pidTerm = act->pidPGain * error;
                 act->tempIState = constrain(act->tempIState + error, act->tempIStateLimitMin, act->tempIStateLimitMax);
                 pidTerm += act->pidIGain * act->tempIState * 0.1; // 0.1 = 10Hz
@@ -275,7 +283,9 @@ void Extruder::manageTemperatures()
             }
             else if(act->heatManager == HTR_DEADTIME)     // dead-time control
             {
+#if FEATURE_DECOUPLE_TEST
                 act->startHoldDecouple(time);
+#endif
                 float raising = 3.333 * (act->currentTemperatureC - act->tempArray[act->tempPointer]); // raising dT/dt, 3.33 = reciproke of time interval (300 ms)
                 act->tempIState = 0.25 * (3.0 * act->tempIState + raising); // damp raising
                 output = (act->currentTemperatureC + act->tempIState * act->deadTime > act->targetTemperatureC ? 0 : act->pidDriveMax);
@@ -288,16 +298,20 @@ void Extruder::manageTemperatures()
                     {
                         output = (on ? act->pidMax : 0);
                         act->lastTemperatureUpdate = time;
+#if FEATURE_DECOUPLE_TEST
                         if(on) act->startFullDecouple(time);
                         else act->stopDecouple();
+#endif
                     }
                     else continue;
                 }
                 else     // Fast Bang-Bang fallback
                 {
                     output = (on ? act->pidMax : 0);
+#if FEATURE_DECOUPLE_TEST
                     if(on) act->startFullDecouple(time);
                     else act->stopDecouple();
+#endif
                 }
         } // Temperatur control
 #ifdef MAXTEMP
@@ -1738,7 +1752,9 @@ void TemperatureController::updateCurrentTemperature()
 void TemperatureController::setTargetTemperature(float target)
 {
     targetTemperatureC = target;
+#if FEATURE_DECOUPLE_TEST
     stopDecouple();
+#endif
 }
 
 uint8_t autotuneIndex = 255;

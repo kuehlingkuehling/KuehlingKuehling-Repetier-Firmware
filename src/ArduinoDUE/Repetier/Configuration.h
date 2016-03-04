@@ -68,6 +68,12 @@
 #define BLUETOOTH_BAUD  115200
 #define MIXING_EXTRUDER 0
 
+// manually added switch to disable decoupling logic
+//   as it does not play well with the heated chamber driven by the 3rd extruder
+//   (opening the door triggers the decoupling error - chamber temp sensor and chamber heaters
+//   are decoupled by design, after all)
+#define FEATURE_DECOUPLE_TEST 0      
+
 #define DRIVE_SYSTEM 0
 #define XAXIS_STEPS_PER_MM 35.5555
 #define YAXIS_STEPS_PER_MM 53.3334
