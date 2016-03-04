@@ -202,10 +202,25 @@ STEPPER_CURRENT_CONTROL
 // To set microstepping on startup set START_GCODE to e.g.
 // "M42 P67 S255\nM42 P68 S255\nM42 P69 S255"
 
-#define SDSUPPORT      1
+// SOFTWARE SPI SETTINGS FOR MAX31855 COMMUNICATION
+#define DUE_SOFTWARE_SPI
+#define MISO_PIN    4       // CS1 Pin on RADDS SPI Header
+#define MOSI_PIN    14      // CD Pin on RADDS SPI Header
+#define SCK_PIN     10      // CS0 Pin on RADDS SPI Header
+// END SOFTWARE SPI SETINGS
+
+// Out-Of-Filament Endswitches, connected to Y- and Z- Endstop headers on RADDS
+#define OUT_OF_FILAMENT_LEFT_PIN     30     // Ymin Endstop pin
+#define OUT_OF_FILAMENT_RIGHT_PIN    32     // Zmin Endstop pin
+
+// Chamber Heater safety switches, connected to pin 25 and 37 of AUX1 header on RADDS
+#define CHAMBER_HEATER_OVERTEMP_LEFT_PIN  25
+#define CHAMBER_HEATER_OVERTEMP_RIGHT_PIN  37
+
+#define SDSUPPORT      -1
 #define SDPOWER 	   -1
 // 4,10,52 if using HW SPI.
-#define SDSS		    4
+#define SDSS		    53
 #define ORIG_SDCARDDETECT       14
 #define SDCARDDETECTINVERTED 0
 #define LED_PIN 	   -1
@@ -1095,23 +1110,23 @@ STEPPER_CURRENT_CONTROL
 
 //Available chip select pins for HW SPI are 4 10 52 
 #if (SDSS == 4) || (SDSS == 10) || (SDSS == 52) || (SDSS == 77) 
-#if (SDSS == 10)
-#define SPI_PIN         77
-#define SPI_CHAN        0
-#else
-#if (SDSS == 52) 
-#define SPI_PIN         86
-#define SPI_CHAN        2
-#else // SDSS == 4
-#if (SDSS == 4)
-#define SPI_PIN         87
-#define SPI_CHAN        1
-#else //SDSS == 77
-#define SPI_PIN         77
-#define SPI_CHAN        0
+  #if (SDSS == 10)
+  #define SPI_PIN         77
+  #define SPI_CHAN        0
+  #else
+  #if (SDSS == 52) 
+  #define SPI_PIN         86
+  #define SPI_CHAN        2
+  #else // SDSS == 4
+  #if (SDSS == 4)
+  #define SPI_PIN         87
+  #define SPI_CHAN        1
+  #else //SDSS == 77
+  #define SPI_PIN         77
+  #define SPI_CHAN        0
+    #endif
   #endif
-#endif
-#endif
+  #endif
 #define MOSI_PIN        75
 #define MISO_PIN        74
 #define SCK_PIN         76
