@@ -220,7 +220,7 @@ STEPPER_CURRENT_CONTROL
 #define SDSUPPORT      -1
 #define SDPOWER 	   -1
 // 4,10,52 if using HW SPI.
-#define SDSS		    53
+#define SDSS		    63
 #define ORIG_SDCARDDETECT       14
 #define SDCARDDETECTINVERTED 0
 #define LED_PIN 	   -1
