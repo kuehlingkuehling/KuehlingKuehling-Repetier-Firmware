@@ -384,29 +384,65 @@ void uiCheckKeys(uint16_t &action) {
   // push btns connect pin to GND
   // (remembers last state so both keys can be handled in parallel)
 
+  const unsigned long DEBOUNCE_INTERVAL = 2*1000UL; // 2 sec
+  unsigned long currentTime = millis();
+
+  //
   // LEFT SPOOL
+  //
   static boolean out_of_filament_left_old = true;
   boolean        out_of_filament_left_new = false;
+  static boolean out_of_filament_left_triggered = false;
+  static unsigned long out_of_filament_left_trigger_time;  
+
   if ( READ(OUT_OF_FILAMENT_LEFT_PIN) == 0 ) { // pulled to GND
     out_of_filament_left_new = true;  
   } else {
     out_of_filament_left_new = false;    
   }
   if( !out_of_filament_left_old && out_of_filament_left_new ) { // state changed from false to true
-    uid.executeAction(UI_ACTION_OUT_OF_FILAMENT_LEFT, true);
+       // start debounce timer
+    out_of_filament_left_triggered = true;
+    out_of_filament_left_trigger_time = millis();    
+  } else if ( out_of_filament_left_old && !out_of_filament_left_new ) { // state changed from true to false
+    // kill debounce timer
+    out_of_filament_left_triggered = false;
   }
+  // if timer still running and DEBOUNCE_INTERVAL reached, issue a Out-of-Filament message
+  if ( out_of_filament_left_triggered && ((unsigned long)(currentTime - out_of_filament_left_trigger_time) >= DEBOUNCE_INTERVAL)) {
+    uid.executeAction(UI_ACTION_OUT_OF_FILAMENT_LEFT, true);
+    // kill timer
+    out_of_filament_left_triggered = false;
+  }  
   out_of_filament_left_old = out_of_filament_left_new;
 
+
+  //
   // RIGHT SPOOL
+  //
   static boolean out_of_filament_right_old = true;
   boolean        out_of_filament_right_new = false;
+  static boolean out_of_filament_right_triggered = false;
+  static unsigned long out_of_filament_right_trigger_time;
+
   if ( READ(OUT_OF_FILAMENT_RIGHT_PIN) == 0 ) { // pulled to GND
     out_of_filament_right_new = true;  
   } else {
     out_of_filament_right_new = false;    
   }
   if( !out_of_filament_right_old && out_of_filament_right_new ) { // state changed from false to true
+    // start debounce timer
+    out_of_filament_right_triggered = true;
+    out_of_filament_right_trigger_time = millis();
+  } else if ( out_of_filament_right_old && !out_of_filament_right_new ) { // state changed from true to false
+    // kill debounce timer
+    out_of_filament_right_triggered = false;
+  }
+  // if timer still running and DEBOUNCE_INTERVAL reached, issue a Out-of-Filament message
+  if ( out_of_filament_right_triggered && ((unsigned long)(currentTime - out_of_filament_right_trigger_time) >= DEBOUNCE_INTERVAL)) {
     uid.executeAction(UI_ACTION_OUT_OF_FILAMENT_RIGHT, true);
+    // kill timer
+    out_of_filament_right_triggered = false;
   }
   out_of_filament_right_old = out_of_filament_right_new; 
 
@@ -415,14 +451,18 @@ void uiCheckKeys(uint16_t &action) {
   // push btns are connected to GND, open when activated
   // (setting the firmware into dry-run until reset)
 
+  //
   // LEFT CHAMBER HEATER OVERTEMP SWITCH
+  //
   static boolean chamber_heater_overtemp_left = false;
   if ( READ(CHAMBER_HEATER_OVERTEMP_LEFT_PIN) == 1 && !chamber_heater_overtemp_left) { // switch is open, not pulled to GND anymore
     chamber_heater_overtemp_left = true;
     uid.executeAction(UI_ACTION_CHAMBER_HEATER_OVERTEMP_LEFT, true);
   }
 
+  //
   // RIGHT CHAMBER HEATER OVERTEMP SWITCH
+  //
   static boolean chamber_heater_overtemp_right = false;
   if ( READ(CHAMBER_HEATER_OVERTEMP_RIGHT_PIN) == 1 && !chamber_heater_overtemp_right) { // switch is open, not pulled to GND anymore
     chamber_heater_overtemp_right = true;
