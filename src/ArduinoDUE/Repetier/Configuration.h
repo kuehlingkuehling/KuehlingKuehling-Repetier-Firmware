@@ -126,11 +126,11 @@
 #define FILAMENTCHANGE_REHOME 1
 #define FILAMENTCHANGE_SHORTRETRACT 5
 #define FILAMENTCHANGE_LONGRETRACT 50
-#define JAM_STEPS 220
-#define JAM_SLOWDOWN_STEPS 320
+#define JAM_STEPS 4623
+#define JAM_SLOWDOWN_STEPS 4900
 #define JAM_SLOWDOWN_TO 70
-#define JAM_ERROR_STEPS 500
-#define JAM_MIN_STEPS 10
+#define JAM_ERROR_STEPS 6000
+#define JAM_MIN_STEPS 200
 #define JAM_ACTION 2
 
 #define RETRACT_DURING_HEATUP true
@@ -943,11 +943,11 @@ Values must be in range 1..255
     "uiDynamicEncoderSpeed": "1",
     "uiServoControl": 0,
     "killIfSensorDefect": "0",
-    "jamSteps": 220,
-    "jamSlowdownSteps": 320,
+    "jamSteps": 4623,
+    "jamSlowdownSteps": 4900,
     "jamSlowdownTo": 70,
-    "jamErrorSteps": 500,
-    "jamMinSteps": 10,
+    "jamErrorSteps": 6000,
+    "jamMinSteps": 200,
     "jamAction": 2,
     "primaryPort": 1,
     "numMotorDrivers": 0,
