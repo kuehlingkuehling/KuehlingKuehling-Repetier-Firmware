@@ -280,13 +280,13 @@ It also can add a delay to wait for spindle to run on full speed.
 #define X_MIN_POS 0
 #define Y_MIN_POS 0
 #define Z_MIN_POS 0
-#define DISTORTION_CORRECTION 0
+#define DISTORTION_CORRECTION 1
 #define DISTORTION_CORRECTION_POINTS 5
-#define DISTORTION_CORRECTION_R 100
+#define DISTORTION_CORRECTION_R 30
 #define DISTORTION_PERMANENT 1
-#define DISTORTION_UPDATE_FREQUENCY 15
-#define DISTORTION_START_DEGRADE 0.5
-#define DISTORTION_END_HEIGHT 1
+#define DISTORTION_UPDATE_FREQUENCY 6
+#define DISTORTION_START_DEGRADE 20
+#define DISTORTION_END_HEIGHT 30
 #define DISTORTION_EXTRAPOLATE_CORNERS 0
 #define DISTORTION_XMIN 10
 #define DISTORTION_YMIN 10
@@ -906,13 +906,13 @@ Values must be in range 1..255
     "retractOnPause": 2,
     "pauseStartCommands": "",
     "pauseEndCommands": "",
-    "distortionCorrection": "0",
+    "distortionCorrection": "1",
     "distortionCorrectionPoints": 5,
-    "distortionCorrectionR": 100,
+    "distortionCorrectionR": 30,
     "distortionPermanent": "1",
-    "distortionUpdateFrequency": 15,
-    "distortionStartDegrade": 0.5,
-    "distortionEndDegrade": 1,
+    "distortionUpdateFrequency": 6,
+    "distortionStartDegrade": 20,
+    "distortionEndDegrade": 30,
     "distortionExtrapolateCorners": "0",
     "distortionXMin": 10,
     "distortionXMax": 190,
