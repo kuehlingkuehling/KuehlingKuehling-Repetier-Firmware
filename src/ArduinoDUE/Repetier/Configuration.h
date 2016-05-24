@@ -36,7 +36,7 @@
 
 */
 
-#define NUM_EXTRUDER 1
+#define NUM_EXTRUDER 3
 #define MOTHERBOARD 402
 #define RFSERIAL Serial
 #include "pins.h"
@@ -79,8 +79,8 @@
 #define EXT0_Y_OFFSET 0
 #define EXT0_Z_OFFSET 0
 #define EXT0_STEPS_PER_MM 177
-#define EXT0_TEMPSENSOR_TYPE 1
-#define EXT0_TEMPSENSOR_PIN TEMP_0_PIN
+#define EXT0_TEMPSENSOR_TYPE 102
+#define EXT0_TEMPSENSOR_PIN 27 // TEMP_0_PIN
 #define EXT0_HEATER_PIN HEATER_0_PIN
 #define EXT0_STEP_PIN ORIG_E0_STEP_PIN
 #define EXT0_DIR_PIN ORIG_E0_DIR_PIN
@@ -90,13 +90,13 @@
 #define EXT0_MAX_FEEDRATE 50
 #define EXT0_MAX_START_FEEDRATE 20
 #define EXT0_MAX_ACCELERATION 5000
-#define EXT0_HEAT_MANAGER 3
+#define EXT0_HEAT_MANAGER 1
 #define EXT0_WATCHPERIOD 1
-#define EXT0_PID_INTEGRAL_DRIVE_MAX 250
-#define EXT0_PID_INTEGRAL_DRIVE_MIN 40
-#define EXT0_PID_PGAIN_OR_DEAD_TIME 7
-#define EXT0_PID_I 2
-#define EXT0_PID_D 40
+#define EXT0_PID_INTEGRAL_DRIVE_MAX 180
+#define EXT0_PID_INTEGRAL_DRIVE_MIN 60
+#define EXT0_PID_PGAIN_OR_DEAD_TIME 5.74
+#define EXT0_PID_I 0.18
+#define EXT0_PID_D 44.7
 #define EXT0_PID_MAX 255
 #define EXT0_ADVANCE_K 0
 #define EXT0_ADVANCE_L 0
@@ -108,8 +108,90 @@
 #define EXT0_EXTRUDER_COOLER_PIN -1
 #define EXT0_EXTRUDER_COOLER_SPEED 255
 #define EXT0_DECOUPLE_TEST_PERIOD 30000
-#define EXT0_JAM_PIN ORIG_Z_MIN_PIN
+#define EXT0_JAM_PIN -1 //ORIG_Z_MIN_PIN      <----------- TEMPORÄR DEAKTIVIERT (PROTOTYP)
 #define EXT0_JAM_PULLUP 0
+
+#define EXT1_X_OFFSET 0
+#define EXT1_Y_OFFSET 0
+#define EXT1_Z_OFFSET 0
+#define EXT1_STEPS_PER_MM 370
+#define EXT1_TEMPSENSOR_TYPE 1
+#define EXT1_TEMPSENSOR_PIN TEMP_2_PIN
+#define EXT1_HEATER_PIN HEATER_2_PIN
+#define EXT1_STEP_PIN ORIG_E1_STEP_PIN
+#define EXT1_DIR_PIN ORIG_E1_DIR_PIN
+#define EXT1_INVERSE 0
+#define EXT1_ENABLE_PIN ORIG_E1_ENABLE_PIN
+#define EXT1_ENABLE_ON 0
+#define EXT1_MIRROR_STEPPER 0
+#define EXT1_STEP2_PIN ORIG_E1_STEP_PIN
+#define EXT1_DIR2_PIN ORIG_E1_DIR_PIN
+#define EXT1_INVERSE2 0
+#define EXT1_ENABLE2_PIN ORIG_E1_ENABLE_PIN
+#define EXT1_MAX_FEEDRATE 50
+#define EXT1_MAX_START_FEEDRATE 20
+#define EXT1_MAX_ACCELERATION 5000
+#define EXT1_HEAT_MANAGER 3
+#define EXT1_WATCHPERIOD 1
+#define EXT1_PID_INTEGRAL_DRIVE_MAX 230
+#define EXT1_PID_INTEGRAL_DRIVE_MIN 40
+#define EXT1_PID_PGAIN_OR_DEAD_TIME 7
+#define EXT1_PID_I 2
+#define EXT1_PID_D 40
+#define EXT1_PID_MAX 255
+#define EXT1_ADVANCE_K 0
+#define EXT1_ADVANCE_L 0
+#define EXT1_ADVANCE_BACKLASH_STEPS 0
+#define EXT1_WAIT_RETRACT_TEMP 150
+#define EXT1_WAIT_RETRACT_UNITS 0
+#define EXT1_SELECT_COMMANDS ""
+#define EXT1_DESELECT_COMMANDS ""
+#define EXT1_EXTRUDER_COOLER_PIN -1
+#define EXT1_EXTRUDER_COOLER_SPEED 255
+#define EXT1_DECOUPLE_TEST_PERIOD 12000
+#define EXT1_JAM_PIN -1
+#define EXT1_JAM_PULLUP 0
+
+#define EXT2_X_OFFSET 0
+#define EXT2_Y_OFFSET 0
+#define EXT2_Z_OFFSET 0
+#define EXT2_STEPS_PER_MM 370
+#define EXT2_TEMPSENSOR_TYPE 1
+#define EXT2_TEMPSENSOR_PIN TEMP_3_PIN
+#define EXT2_HEATER_PIN HEATER_3_PIN
+#define EXT2_STEP_PIN ORIG_E2_STEP_PIN
+#define EXT2_DIR_PIN ORIG_E2_DIR_PIN
+#define EXT2_INVERSE 0
+#define EXT2_ENABLE_PIN ORIG_E2_ENABLE_PIN
+#define EXT2_ENABLE_ON 0
+#define EXT2_MIRROR_STEPPER 0
+#define EXT2_STEP2_PIN ORIG_E2_STEP_PIN
+#define EXT2_DIR2_PIN ORIG_E2_DIR_PIN
+#define EXT2_INVERSE2 0
+#define EXT2_ENABLE2_PIN ORIG_E2_ENABLE_PIN
+#define EXT2_MAX_FEEDRATE 50
+#define EXT2_MAX_START_FEEDRATE 20
+#define EXT2_MAX_ACCELERATION 5000
+#define EXT2_HEAT_MANAGER 3
+#define EXT2_WATCHPERIOD 1
+#define EXT2_PID_INTEGRAL_DRIVE_MAX 230
+#define EXT2_PID_INTEGRAL_DRIVE_MIN 40
+#define EXT2_PID_PGAIN_OR_DEAD_TIME 7
+#define EXT2_PID_I 2
+#define EXT2_PID_D 40
+#define EXT2_PID_MAX 255
+#define EXT2_ADVANCE_K 0
+#define EXT2_ADVANCE_L 0
+#define EXT2_ADVANCE_BACKLASH_STEPS 0
+#define EXT2_WAIT_RETRACT_TEMP 150
+#define EXT2_WAIT_RETRACT_UNITS 0
+#define EXT2_SELECT_COMMANDS ""
+#define EXT2_DESELECT_COMMANDS ""
+#define EXT2_EXTRUDER_COOLER_PIN -1
+#define EXT2_EXTRUDER_COOLER_SPEED 255
+#define EXT2_DECOUPLE_TEST_PERIOD 12000
+#define EXT2_JAM_PIN -1
+#define EXT2_JAM_PULLUP 0
 
 #define FEATURE_RETRACTION 1
 #define AUTORETRACT_ENABLED 0
@@ -232,13 +314,13 @@ It also can add a delay to wait for spindle to run on full speed.
 #define ENDSTOP_Z_MIN_INVERTING false
 #define MIN_HARDWARE_ENDSTOP_Z false
 #define ENDSTOP_PULLUP_X_MAX false
-#define ENDSTOP_X_MAX_INVERTING true
+#define ENDSTOP_X_MAX_INVERTING false
 #define MAX_HARDWARE_ENDSTOP_X true
 #define ENDSTOP_PULLUP_Y_MAX false
-#define ENDSTOP_Y_MAX_INVERTING true
+#define ENDSTOP_Y_MAX_INVERTING false
 #define MAX_HARDWARE_ENDSTOP_Y true
 #define ENDSTOP_PULLUP_Z_MAX false
-#define ENDSTOP_Z_MAX_INVERTING true
+#define ENDSTOP_Z_MAX_INVERTING false
 #define MAX_HARDWARE_ENDSTOP_Z true
 #define max_software_endstop_r true
 
@@ -280,7 +362,7 @@ It also can add a delay to wait for spindle to run on full speed.
 #define X_MIN_POS 0
 #define Y_MIN_POS 0
 #define Z_MIN_POS 0
-#define DISTORTION_CORRECTION 1
+#define DISTORTION_CORRECTION 0
 #define DISTORTION_CORRECTION_POINTS 5
 #define DISTORTION_CORRECTION_R 30
 #define DISTORTION_PERMANENT 1
@@ -305,7 +387,7 @@ It also can add a delay to wait for spindle to run on full speed.
 #define EXACT_DELTA_MOVES 1
 
 // Delta settings
-#define DELTA_DIAGONAL_ROD 519.5 // mm
+#define DELTA_DIAGONAL_ROD 670 // mm
 #define DELTA_ALPHA_A 210
 #define DELTA_ALPHA_B 330
 #define DELTA_ALPHA_C 90
@@ -317,7 +399,7 @@ It also can add a delay to wait for spindle to run on full speed.
 #define DELTA_DIAGONAL_CORRECTION_C 0
 #define END_EFFECTOR_HORIZONTAL_OFFSET 0
 #define CARRIAGE_HORIZONTAL_OFFSET 0
-#define DELTA_MAX_RADIUS 400
+#define DELTA_MAX_RADIUS 200
 #define ROD_RADIUS 300
 #define PRINTER_RADIUS 300
 #define DELTA_HOME_ON_POWER 0
@@ -605,6 +687,96 @@ Values must be in range 1..255
             "decoupleTestPeriod": 30,
             "jamPin": "ORIG_Z_MIN_PIN",
             "jamPullup": "0"
+        },
+        {
+            "id": 1,
+            "heatManager": 3,
+            "pidDriveMin": 40,
+            "pidDriveMax": 230,
+            "pidMax": 255,
+            "sensorType": 1,
+            "sensorPin": "TEMP_2_PIN",
+            "heaterPin": "HEATER_2_PIN",
+            "maxFeedrate": 50,
+            "startFeedrate": 20,
+            "invert": "0",
+            "invertEnable": "0",
+            "acceleration": 5000,
+            "watchPeriod": 1,
+            "pidP": 7,
+            "pidI": 2,
+            "pidD": 40,
+            "advanceK": 0,
+            "advanceL": 0,
+            "waitRetractTemp": 150,
+            "waitRetractUnits": 0,
+            "waitRetract": 0,
+            "stepsPerMM": 370,
+            "coolerPin": -1,
+            "coolerSpeed": 255,
+            "selectCommands": "",
+            "deselectCommands": "",
+            "xOffset": 0,
+            "yOffset": 0,
+            "zOffset": 0,
+            "xOffsetSteps": 0,
+            "yOffsetSteps": 0,
+            "zOffsetSteps": 0,
+            "stepper": {
+                "name": "Extruder 1",
+                "step": "ORIG_E1_STEP_PIN",
+                "dir": "ORIG_E1_DIR_PIN",
+                "enable": "ORIG_E1_ENABLE_PIN"
+            },
+            "advanceBacklashSteps": 0,
+            "decoupleTestPeriod": 12,
+            "jamPin": -1,
+            "jamPullup": "0"
+        },
+        {
+            "id": 2,
+            "heatManager": 3,
+            "pidDriveMin": 40,
+            "pidDriveMax": 230,
+            "pidMax": 255,
+            "sensorType": 1,
+            "sensorPin": "TEMP_3_PIN",
+            "heaterPin": "HEATER_3_PIN",
+            "maxFeedrate": 50,
+            "startFeedrate": 20,
+            "invert": "0",
+            "invertEnable": "0",
+            "acceleration": 5000,
+            "watchPeriod": 1,
+            "pidP": 7,
+            "pidI": 2,
+            "pidD": 40,
+            "advanceK": 0,
+            "advanceL": 0,
+            "waitRetractTemp": 150,
+            "waitRetractUnits": 0,
+            "waitRetract": 0,
+            "stepsPerMM": 370,
+            "coolerPin": -1,
+            "coolerSpeed": 255,
+            "selectCommands": "",
+            "deselectCommands": "",
+            "xOffset": 0,
+            "yOffset": 0,
+            "zOffset": 0,
+            "xOffsetSteps": 0,
+            "yOffsetSteps": 0,
+            "zOffsetSteps": 0,
+            "stepper": {
+                "name": "Extruder 2",
+                "step": "ORIG_E2_STEP_PIN",
+                "dir": "ORIG_E2_DIR_PIN",
+                "enable": "ORIG_E2_ENABLE_PIN"
+            },
+            "advanceBacklashSteps": 0,
+            "decoupleTestPeriod": 12,
+            "jamPin": -1,
+            "jamPullup": "0"
         }
     ],
     "uiLanguage": 0,
@@ -612,9 +784,9 @@ Values must be in range 1..255
     "xMinEndstop": 0,
     "yMinEndstop": 0,
     "zMinEndstop": 0,
-    "xMaxEndstop": 3,
-    "yMaxEndstop": 3,
-    "zMaxEndstop": 3,
+    "xMaxEndstop": 4,
+    "yMaxEndstop": 4,
+    "zMaxEndstop": 4,
     "motherboard": 402,
     "driveSystem": 3,
     "xMaxSpeed": 300,
@@ -906,7 +1078,7 @@ Values must be in range 1..255
     "retractOnPause": 2,
     "pauseStartCommands": "",
     "pauseEndCommands": "",
-    "distortionCorrection": "1",
+    "distortionCorrection": "0",
     "distortionCorrectionPoints": 5,
     "distortionCorrectionR": 30,
     "distortionPermanent": "1",
@@ -1080,7 +1252,7 @@ Values must be in range 1..255
     "hasUser0": false,
     "hasUser1": false,
     "hasUser2": false,
-    "numExtruder": 1,
+    "numExtruder": 3,
     "version": 92.8,
     "primaryPortName": "Serial"
 }
