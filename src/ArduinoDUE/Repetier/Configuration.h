@@ -75,9 +75,9 @@
 #define FEATURE_DECOUPLE_TEST 0      
 
 #define DRIVE_SYSTEM 0
-#define XAXIS_STEPS_PER_MM 35.5555
-#define YAXIS_STEPS_PER_MM 53.3334
-#define ZAXIS_STEPS_PER_MM 320
+#define XAXIS_STEPS_PER_MM 142.222  // 1/64 microstepping  ----  for 1/16 microstepping use 35.5555
+#define YAXIS_STEPS_PER_MM 213.3336 // 1/64 microstepping  ----  for 1/16 microstepping use 53.3334
+#define ZAXIS_STEPS_PER_MM 1280     // 1/64 microstepping  ----  for 1/16 microstepping use 320
 #define EXTRUDER_FAN_COOL_TEMP 50
 #define PDM_FOR_EXTRUDER 0
 #define PDM_FOR_COOLER 0
