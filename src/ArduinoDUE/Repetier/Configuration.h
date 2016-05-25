@@ -98,7 +98,7 @@
 #define EXT0_DIR_PIN ORIG_E0_DIR_PIN
 #define EXT0_INVERSE 0
 #define EXT0_ENABLE_PIN ORIG_E0_ENABLE_PIN
-#define EXT0_ENABLE_ON 0
+#define EXT0_ENABLE_ON 1
 #define EXT0_MAX_FEEDRATE 24
 #define EXT0_MAX_START_FEEDRATE 5
 #define EXT0_MAX_ACCELERATION 3000
@@ -133,7 +133,7 @@
 #define EXT1_DIR_PIN ORIG_E2_DIR_PIN
 #define EXT1_INVERSE 1
 #define EXT1_ENABLE_PIN ORIG_E2_ENABLE_PIN
-#define EXT1_ENABLE_ON 0
+#define EXT1_ENABLE_ON 1
 #define EXT1_MAX_FEEDRATE 24
 #define EXT1_MAX_START_FEEDRATE 5
 #define EXT1_MAX_ACCELERATION 3000
@@ -168,7 +168,7 @@
 #define EXT2_DIR_PIN ORIG_E1_DIR_PIN
 #define EXT2_INVERSE 0
 #define EXT2_ENABLE_PIN ORIG_E1_ENABLE_PIN
-#define EXT2_ENABLE_ON 0
+#define EXT2_ENABLE_ON 1
 #define EXT2_MAX_FEEDRATE 50
 #define EXT2_MAX_START_FEEDRATE 20
 #define EXT2_MAX_ACCELERATION 5000
@@ -350,9 +350,9 @@ It also can add a delay to wait for spindle to run on full speed.
 
 // ################# XYZ movements ###################
 
-#define X_ENABLE_ON 0
-#define Y_ENABLE_ON 0
-#define Z_ENABLE_ON 0
+#define X_ENABLE_ON 1
+#define Y_ENABLE_ON 1
+#define Z_ENABLE_ON 1
 #define DISABLE_X 0
 #define DISABLE_Y 0
 #define DISABLE_Z 0
@@ -416,7 +416,7 @@ It also can add a delay to wait for spindle to run on full speed.
 #define Y_BACKLASH 0
 #define Z_BACKLASH 0
 #define RAMP_ACCELERATION 1
-#define STEPPER_HIGH_DELAY 2
+#define STEPPER_HIGH_DELAY 0
 #define DIRECTION_DELAY 0
 #define STEP_DOUBLER_FREQUENCY 80000
 #define ALLOW_QUADSTEPPING 1
@@ -622,12 +622,12 @@ Values must be in range 1..255
     "yStepsPerMM": 53.3334,
     "zStepsPerMM": 320,
     "xInvert": 0,
-    "xInvertEnable": 0,
+    "xInvertEnable": 1,
     "eepromMode": 1,
     "yInvert": "1",
-    "yInvertEnable": 0,
+    "yInvertEnable": 1,
     "zInvert": "1",
-    "zInvertEnable": 0,
+    "zInvertEnable": 1,
     "extruder": [
         {
             "id": 0,
@@ -641,7 +641,7 @@ Values must be in range 1..255
             "maxFeedrate": 24,
             "startFeedrate": 5,
             "invert": "0",
-            "invertEnable": "0",
+            "invertEnable": "1",
             "acceleration": 3000,
             "watchPeriod": 1,
             "pidP": 5.74,
@@ -686,7 +686,7 @@ Values must be in range 1..255
             "maxFeedrate": 24,
             "startFeedrate": 5,
             "invert": "0",
-            "invertEnable": "0",
+            "invertEnable": "1",
             "acceleration": 3000,
             "watchPeriod": 1,
             "pidP": 5.74,
@@ -731,7 +731,7 @@ Values must be in range 1..255
             "maxFeedrate": 50,
             "startFeedrate": 20,
             "invert": "0",
-            "invertEnable": "0",
+            "invertEnable": "1",
             "acceleration": 5000,
             "watchPeriod": 1,
             "pidP": 7,
@@ -847,7 +847,7 @@ Values must be in range 1..255
     "deltaYOffsetSteps": 0,
     "deltaZOffsetSteps": 0,
     "deltaSegmentsPerLine": 24,
-    "stepperHighDelay": 2,
+    "stepperHighDelay": 0,
     "directionDelay": 0,
     "stepDoublerFrequency": 80000,
     "allowQuadstepping": "1",
