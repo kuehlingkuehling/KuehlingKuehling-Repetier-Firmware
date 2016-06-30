@@ -405,7 +405,7 @@ It also can add a delay to wait for spindle to run on full speed.
 #define DELTA_DIAGONAL_CORRECTION_C 0
 #define END_EFFECTOR_HORIZONTAL_OFFSET 0
 #define CARRIAGE_HORIZONTAL_OFFSET 0
-#define DELTA_MAX_RADIUS 200
+#define DELTA_MAX_RADIUS 548
 #define ROD_RADIUS 300
 #define PRINTER_RADIUS 300
 #define DELTA_HOME_ON_POWER 0
