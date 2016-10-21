@@ -116,7 +116,7 @@ void Extruder::manageTemperatures()
                 extruder[0].coolerPWM = (enable ? extruder[0].coolerSpeed : 0);
             } // controller == 0
 #else
-            if(act->currentTemperatureC < EXTRUDER_FAN_COOL_TEMP && act->targetTemperatureC < EXTRUDER_FAN_COOL_TEMP)
+            if(act->currentTemperatureC < EXTRUDER_FAN_COOL_TEMP && act->targetTemperatureC == 0)
                 extruder[controller].coolerPWM = 0;
             else
                 extruder[controller].coolerPWM = extruder[controller].coolerSpeed;
