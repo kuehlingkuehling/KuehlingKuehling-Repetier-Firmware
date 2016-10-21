@@ -69,7 +69,7 @@ void Extruder::manageTemperatures()
 #ifdef RED_BLUE_STATUS_LEDS
     bool hot = false;
 #endif
-	bool newDefectFound = false;
+  bool newDefectFound = false;
     millis_t time = HAL::timeInMilliseconds(); // compare time for decouple tests
 #if NUM_TEMPERATURE_LOOPS > 0
     for(uint8_t controller = 0; controller < NUM_TEMPERATURE_LOOPS; controller++)
@@ -78,22 +78,22 @@ void Extruder::manageTemperatures()
         // Get Temperature
         act->updateCurrentTemperature();
 #if FAN_THERMO_PIN > -1
-		// Special case thermistor controlled fan
+    // Special case thermistor controlled fan
         if(act == &thermoController) {
-			if(act->currentTemperatureC < Printer::thermoMinTemp)
-				pwm_pos[PWM_FAN_THERMO] = 0;
-			else if(act->currentTemperatureC > Printer::thermoMaxTemp)
-				pwm_pos[PWM_FAN_THERMO] = FAN_THERMO_MAX_PWM;
-			else {
-				// Interpolate target speed
-				float out = FAN_THERMO_MIN_PWM + (FAN_THERMO_MAX_PWM-FAN_THERMO_MIN_PWM) * (act->currentTemperatureC - Printer::thermoMinTemp) / (Printer::thermoMaxTemp - Printer::thermoMinTemp);
-				if(out > 255)
-					pwm_pos[PWM_FAN_THERMO] = FAN_THERMO_MAX_PWM;
-				else
-					pwm_pos[PWM_FAN_THERMO] = static_cast<uint8_t>(out);
-			}
-			continue;
-		}
+      if(act->currentTemperatureC < Printer::thermoMinTemp)
+        pwm_pos[PWM_FAN_THERMO] = 0;
+      else if(act->currentTemperatureC > Printer::thermoMaxTemp)
+        pwm_pos[PWM_FAN_THERMO] = FAN_THERMO_MAX_PWM;
+      else {
+        // Interpolate target speed
+        float out = FAN_THERMO_MIN_PWM + (FAN_THERMO_MAX_PWM-FAN_THERMO_MIN_PWM) * (act->currentTemperatureC - Printer::thermoMinTemp) / (Printer::thermoMaxTemp - Printer::thermoMinTemp);
+        if(out > 255)
+          pwm_pos[PWM_FAN_THERMO] = FAN_THERMO_MAX_PWM;
+        else
+          pwm_pos[PWM_FAN_THERMO] = static_cast<uint8_t>(out);
+      }
+      continue;
+    }
 #endif
         // Handle automatic cooling of extruders
         if(controller < NUM_EXTRUDER)
@@ -140,32 +140,34 @@ void Extruder::manageTemperatures()
                 act->flags |= TEMPERATURE_CONTROLLER_FLAG_SENSDEFECT;
                 if(!Printer::isAnyTempsensorDefect())
                 {
-					newDefectFound = true;
+          newDefectFound = true;
                     Printer::setAnyTempsensorDefect();
                     reportTempsensorError();
                 }
                 EVENT_HEATER_DEFECT(controller);
             }
         }
+
 #if HAVE_HEATED_BED
-		else if(controller == HEATED_BED_INDEX && Extruder::getHeatedBedTemperature() > HEATED_BED_MAX_TEMP + 5) {
+    else if(controller == HEATED_BED_INDEX && Extruder::getHeatedBedTemperature() > HEATED_BED_MAX_TEMP + 5) {
             errorDetected = 1;
             if(extruderTempErrors < 10)    // Ignore short temporary failures
             extruderTempErrors++;
             else
             {
-	            act->flags |= TEMPERATURE_CONTROLLER_FLAG_SENSDEFECT;
-				Com::printErrorFLN(PSTR("Heated bed exceeded max temperature!"));
-	            if(!Printer::isAnyTempsensorDefect())
-	            {
-					newDefectFound = true;
-		            Printer::setAnyTempsensorDefect();
-		            reportTempsensorError();
-	            }
-	            EVENT_HEATER_DEFECT(controller);
-            }			
-		}
+              act->flags |= TEMPERATURE_CONTROLLER_FLAG_SENSDEFECT;
+        Com::printErrorFLN(PSTR("Heated bed exceeded max temperature!"));
+              if(!Printer::isAnyTempsensorDefect())
+              {
+          newDefectFound = true;
+                Printer::setAnyTempsensorDefect();
+                reportTempsensorError();
+              }
+              EVENT_HEATER_DEFECT(controller);
+            }     
+    }
 #endif // HAVE_HEATED_BED
+
 #ifdef RED_BLUE_STATUS_LEDS
         if(act->currentTemperatureC > 50)
             hot = true;
@@ -193,12 +195,12 @@ void Extruder::manageTemperatures()
                     if(extruderTempErrors > 10)   // Ignore short temporary failures
                     {
                         act->flags |= TEMPERATURE_CONTROLLER_FLAG_SENSDECOUPLED;
-						
-						if(!Printer::isAnyTempsensorDefect())
-						{
-							Printer::setAnyTempsensorDefect();
-							newDefectFound = true;
-						}
+            
+            if(!Printer::isAnyTempsensorDefect())
+            {
+              Printer::setAnyTempsensorDefect();
+              newDefectFound = true;
+            }
                         UI_ERROR_P(Com::tHeaterDecoupled);
                         Com::printErrorFLN(Com::tHeaterDecoupledWarning);
                         Com::printF(PSTR("Error:Temp. raised to slow. Rise = "),act->currentTemperatureC - act->lastDecoupleTemp);
@@ -222,11 +224,11 @@ void Extruder::manageTemperatures()
                     if(extruderTempErrors > 10)   // Ignore short temporary failures
                     {
                         act->flags |= TEMPERATURE_CONTROLLER_FLAG_SENSDECOUPLED;
-						if(!Printer::isAnyTempsensorDefect())
-						{
-							Printer::setAnyTempsensorDefect();
-							newDefectFound = true;
-						}
+            if(!Printer::isAnyTempsensorDefect())
+            {
+              Printer::setAnyTempsensorDefect();
+              newDefectFound = true;
+            }
                         UI_ERROR_P(Com::tHeaterDecoupled);
                         Com::printErrorFLN(Com::tHeaterDecoupledWarning);
                         Com::printF(PSTR("Error:Could not hold temperature "),act->lastDecoupleTemp);
@@ -241,7 +243,7 @@ void Extruder::manageTemperatures()
                 }
             }
         }
-#endif
+#endif        
 
 #if TEMP_PID
         act->tempArray[act->tempPointer++] = act->currentTemperatureC;
@@ -251,7 +253,7 @@ void Extruder::manageTemperatures()
         if(act->targetTemperatureC < 20.0f) // heating is off
         {
             output = 0; // off is off, even if damping term wants a heat peak!
-#if FEATURE_DECOUPLE_TEST
+#if FEATURE_DECOUPLE_TEST            
             act->stopDecouple();
 #endif            
         }
@@ -270,7 +272,7 @@ void Extruder::manageTemperatures()
             {
 #if FEATURE_DECOUPLE_TEST
                 act->startHoldDecouple(time);
-#endif                
+#endif
                 float pidTerm = act->pidPGain * error;
                 act->tempIState = constrain(act->tempIState + error, act->tempIStateLimitMin, act->tempIStateLimitMax);
                 pidTerm += act->pidIGain * act->tempIState * 0.1; // 0.1 = 10Hz
@@ -285,7 +287,7 @@ void Extruder::manageTemperatures()
             {
 #if FEATURE_DECOUPLE_TEST
                 act->startHoldDecouple(time);
-#endif                
+#endif
                 float raising = 3.333 * (act->currentTemperatureC - act->tempArray[act->tempPointer]); // raising dT/dt, 3.33 = reciproke of time interval (300 ms)
                 act->tempIState = 0.25 * (3.0 * act->tempIState + raising); // damp raising
                 output = (act->currentTemperatureC + act->tempIState * act->deadTime > act->targetTemperatureC ? 0 : act->pidDriveMax);
@@ -342,10 +344,10 @@ void Extruder::manageTemperatures()
         extruderTempErrors--;
     if(newDefectFound)
     {
-		Com::printFLN(PSTR("Disabling all heaters due to detected sensor defect."));
+    Com::printFLN(PSTR("Disabling all heaters due to detected sensor defect."));
         for(uint8_t i = 0; i < NUM_TEMPERATURE_LOOPS; i++)
         {
-			tempController[i]->targetTemperatureC = 0;
+      tempController[i]->targetTemperatureC = 0;
             pwm_pos[tempController[i]->pwmIndex] = 0;
         }
 #if defined(KILL_IF_SENSOR_DEFECT) && KILL_IF_SENSOR_DEFECT > 0
@@ -406,9 +408,9 @@ void Extruder::unpauseExtruders()
 }
 
 void TemperatureController::resetAllErrorStates() {
-	for(int i = 0;i < NUM_TEMPERATURE_LOOPS; i++) {
-		tempController[i]->removeErrorStates();
-	}
+  for(int i = 0;i < NUM_TEMPERATURE_LOOPS; i++) {
+    tempController[i]->removeErrorStates();
+  }
 }
 
 #if EXTRUDER_JAM_CONTROL
@@ -451,7 +453,26 @@ void Extruder::initHeatedBed()
 #if TEMP_PID
     heatedBedController.updateTempControlVars();
 #endif
+
+#if defined(SUPPORT_MAX6675) || defined(SUPPORT_MAX31855)
+        if(heatedBedController.sensorType == 101 || heatedBedController.sensorType == 102)
+        {
+            WRITE(SCK_PIN, 0);
+            SET_OUTPUT(SCK_PIN);
+            WRITE(MOSI_PIN, 1);
+            SET_OUTPUT(MOSI_PIN);
+            WRITE(MISO_PIN, 1);
+            SET_INPUT(MISO_PIN);
+            //SET_OUTPUT(SS);
+            //WRITE(SS, HIGH);
+            HAL::pinMode(SS, OUTPUT);
+            HAL::digitalWrite(SS, 1);
+            HAL::pinMode(heatedBedController.sensorPin, OUTPUT);
+      HAL::digitalWrite(heatedBedController.sensorPin, 1);
+        }
 #endif
+
+#endif //HAVE_HEATED_BED
 }
 
 #if defined(USE_GENERIC_THERMISTORTABLE_1) || defined(USE_GENERIC_THERMISTORTABLE_2) || defined(USE_GENERIC_THERMISTORTABLE_3)
@@ -559,7 +580,7 @@ void Extruder::initExtruder()
             HAL::pinMode(SS, OUTPUT);
             HAL::digitalWrite(SS, 1);
             HAL::pinMode(act->tempControl.sensorPin, OUTPUT);
-			HAL::digitalWrite(act->tempControl.sensorPin, 1);
+      HAL::digitalWrite(act->tempControl.sensorPin, 1);
         }
 #endif
     }
@@ -596,13 +617,13 @@ void Extruder::selectExtruderById(uint8_t extruderId)
     activeMixingExtruder = extruderId;
     for(uint8_t i = 0; i < NUM_EXTRUDER; i++)
         Extruder::setMixingWeight(i, extruder[i].virtualWeights[extruderId]);
-	Com::printFLN(PSTR("SelectExtruder:"), static_cast<int>(extruderId));
+  Com::printFLN(PSTR("SelectExtruder:"), static_cast<int>(extruderId));
     extruderId = 0;
 #endif
     if(extruderId >= NUM_EXTRUDER)
         extruderId = 0;
 #if !MIXING_EXTRUDER
-	Com::printFLN(PSTR("SelectExtruder:"), static_cast<int>(extruderId));
+  Com::printFLN(PSTR("SelectExtruder:"), static_cast<int>(extruderId));
 #endif
 #if NUM_EXTRUDER > 1 && MIXING_EXTRUDER == 0
     bool executeSelect = false;
@@ -619,13 +640,13 @@ void Extruder::selectExtruderById(uint8_t extruderId)
     // Use separate extruder positions only if being told. Slic3r e.g. creates a continuous extruder position increment
     Printer::currentPositionSteps[E_AXIS] = Extruder::current->extrudePosition;
 #endif
-	#if MIXING_EXTRUDER
-		recomputeMixingExtruderSteps();
-	#else
-		Printer::destinationSteps[E_AXIS] = Printer::currentPositionSteps[E_AXIS];
-		Printer::axisStepsPerMM[E_AXIS] = Extruder::current->stepsPerMM;
-		Printer::invAxisStepsPerMM[E_AXIS] = 1.0f / Printer::axisStepsPerMM[E_AXIS];
-	#endif
+  #if MIXING_EXTRUDER
+    recomputeMixingExtruderSteps();
+  #else
+    Printer::destinationSteps[E_AXIS] = Printer::currentPositionSteps[E_AXIS];
+    Printer::axisStepsPerMM[E_AXIS] = Extruder::current->stepsPerMM;
+    Printer::invAxisStepsPerMM[E_AXIS] = 1.0f / Printer::axisStepsPerMM[E_AXIS];
+  #endif
     Printer::maxFeedrate[E_AXIS] = Extruder::current->maxFeedrate;
 //   max_start_speed_units_per_second[E_AXIS] = Extruder::current->maxStartFeedrate;
     Printer::maxAccelerationMMPerSquareSecond[E_AXIS] = Printer::maxTravelAccelerationMMPerSquareSecond[E_AXIS] = Extruder::current->maxAcceleration;
@@ -653,7 +674,7 @@ void Extruder::selectExtruderById(uint8_t extruderId)
     Commands::changeFlowrateMultiply(Printer::extrudeMultiply); // needed to adjust extrusionFactor to possibly different diameter
     if(Printer::isHomed()) {
         Printer::moveToReal(cx, cy, cz, IGNORE_COORDINATE, Printer::homingFeedrate[X_AXIS]);
-	}
+  }
     Printer::feedrate = oldfeedrate;
     Printer::updateCurrentPosition();
 #if USE_ADVANCE
@@ -662,26 +683,26 @@ void Extruder::selectExtruderById(uint8_t extruderId)
 
 #if NUM_EXTRUDER > 1 && MIXING_EXTRUDER == 0
     if(executeSelect) {// Run only when changing
-		Commands::waitUntilEndOfAllMoves();
+    Commands::waitUntilEndOfAllMoves();
         GCode::executeFString(Extruder::current->selectCommands);
-	}
+  }
 #endif
 #endif
 }
 #if MIXING_EXTRUDER
-	void Extruder::recomputeMixingExtruderSteps() {
-		int32_t sum_w = 0;
-		float sum = 0;
-		for(fast8_t i = 0; i < NUM_EXTRUDER; i++) {
-			sum_w += extruder[i].mixingW;
-			sum += extruder[i].stepsPerMM * extruder[i].mixingW;
-		}
-		sum /= sum_w;
-		Printer::currentPositionSteps[E_AXIS] =  Printer::currentPositionSteps[E_AXIS] * sum / Printer::axisStepsPerMM[E_AXIS]; // reposition according resolution change
-	    Printer::destinationSteps[E_AXIS] = Printer::currentPositionSteps[E_AXIS];
-	    Printer::axisStepsPerMM[E_AXIS] = sum;
-	    Printer::invAxisStepsPerMM[E_AXIS] = 1.0f / Printer::axisStepsPerMM[E_AXIS];
-	}
+  void Extruder::recomputeMixingExtruderSteps() {
+    int32_t sum_w = 0;
+    float sum = 0;
+    for(fast8_t i = 0; i < NUM_EXTRUDER; i++) {
+      sum_w += extruder[i].mixingW;
+      sum += extruder[i].stepsPerMM * extruder[i].mixingW;
+    }
+    sum /= sum_w;
+    Printer::currentPositionSteps[E_AXIS] =  Printer::currentPositionSteps[E_AXIS] * sum / Printer::axisStepsPerMM[E_AXIS]; // reposition according resolution change
+      Printer::destinationSteps[E_AXIS] = Printer::currentPositionSteps[E_AXIS];
+      Printer::axisStepsPerMM[E_AXIS] = sum;
+      Printer::invAxisStepsPerMM[E_AXIS] = 1.0f / Printer::axisStepsPerMM[E_AXIS];
+  }
 #endif
 
 void Extruder::setTemperatureForExtruder(float temperatureInCelsius, uint8_t extr, bool beep, bool wait)
@@ -1482,18 +1503,18 @@ const short temptable_13[NUMTEMPS_13][2] PROGMEM =
 #define NUMTEMPS_13 9
 const short temptable_13[NUMTEMPS_13][2] PROGMEM =
 {
-	{0,0},{1365,8},{1427,10*8},{1489,20*8},{2532,8*230},{2842,8*300},{3301,8*400},{3723,8*500},{4095,8*600}
+  {0,0},{1365,8},{1427,10*8},{1489,20*8},{2532,8*230},{2842,8*300},{3301,8*400},{3723,8*500},{4095,8*600}
 };
 #endif
 #define NUMTEMPS_14 46
 const short temptable_14[NUMTEMPS_14][2] PROGMEM = {
-	{1*4,8*938}, {31*4,8*314}, {41*4,8*290}, {51*4,8*272}, {61*4,8*258}, {71*4,8*247}, {81*4,8*237}, {91*4,8*229}, {101*4,8*221}, {111*4,8*215}, {121*4,8*209},
-	{131*4,8*204}, {141*4,8*199}, {151*4,8*195}, {161*4,8*190}, {171*4,8*187}, {181*4,8*183}, {191*4,8*179}, {201*4,8*176}, {221*4,8*170}, {241*4,8*165}, 
-	{261*4,8*160}, {281*4,8*155}, {301*4,8*150}, {331*4,8*144}, {361*4,8*139}, {391*4,8*133}, {421*4,8*128}, {451*4,8*123}, {491*4,8*117}, {531*4,8*111}, 
-	{571*4,8*105}, {611*4,8*100}, {681*4,8*90}, {711*4,8*85}, {811*4,8*69}, {831*4,8*65}, {881*4,8*55}, 
-	{901*4,8*51},  {941*4,8*39}, {971*4,8*28}, {981*4,8*23}, {991*4,8*17}, {1001*4,8*9}, {1021*4,8*-27},{1023*4,8*-200}
+  {1*4,8*938}, {31*4,8*314}, {41*4,8*290}, {51*4,8*272}, {61*4,8*258}, {71*4,8*247}, {81*4,8*237}, {91*4,8*229}, {101*4,8*221}, {111*4,8*215}, {121*4,8*209},
+  {131*4,8*204}, {141*4,8*199}, {151*4,8*195}, {161*4,8*190}, {171*4,8*187}, {181*4,8*183}, {191*4,8*179}, {201*4,8*176}, {221*4,8*170}, {241*4,8*165}, 
+  {261*4,8*160}, {281*4,8*155}, {301*4,8*150}, {331*4,8*144}, {361*4,8*139}, {391*4,8*133}, {421*4,8*128}, {451*4,8*123}, {491*4,8*117}, {531*4,8*111}, 
+  {571*4,8*105}, {611*4,8*100}, {681*4,8*90}, {711*4,8*85}, {811*4,8*69}, {831*4,8*65}, {881*4,8*55}, 
+  {901*4,8*51},  {941*4,8*39}, {971*4,8*28}, {981*4,8*23}, {991*4,8*17}, {1001*4,8*9}, {1021*4,8*-27},{1023*4,8*-200}
 };
-	
+  
 #if NUM_TEMPS_USERTHERMISTOR0 > 0
 const short temptable_5[NUM_TEMPS_USERTHERMISTOR0][2] PROGMEM = USER_THERMISTORTABLE0 ;
 #endif
@@ -1554,7 +1575,7 @@ void TemperatureController::updateCurrentTemperature()
     case 10:
     case 11:
     case 12:
-	case 14:
+  case 14:
     case 97:
     case 98:
     case 99:
@@ -1602,7 +1623,7 @@ void TemperatureController::updateCurrentTemperature()
     case 10:
     case 11:
     case 12:
-	case 14:
+  case 14:
     {
         type--;
         uint8_t num = pgm_read_byte(&temptables_num[type]) << 1;
@@ -1681,7 +1702,7 @@ void TemperatureController::updateCurrentTemperature()
 #else
     currentTemperatureC = ((float)currentTemperature * 330.0f / (1024 << (2 - ANALOG_REDUCE_BITS))) - 50.0f;
 #endif
-	    break;		
+      break;    
     case 100: // AD595 / AD597   10mV/°C
         //return (int)((long)raw_temp * 500/(1024<<(2-ANALOG_REDUCE_BITS)));
 #if CPU_ARCH == ARCH_AVR
@@ -1934,21 +1955,21 @@ bool reportTempsensorError()
     for(uint8_t i = 0; i < NUM_TEMPERATURE_LOOPS; i++)
     {
         if(i == NUM_EXTRUDER) Com::printF(Com::tHeatedBed);
-#if HAVE_HEATED_BED		
+#if HAVE_HEATED_BED   
         else if(i == HEATED_BED_INDEX) Com::printF(Com::tExtruderSpace,i);
-#endif		
-		else Com::printF(PSTR("Other:"));
-		TemperatureController *act = tempController[i];
+#endif    
+    else Com::printF(PSTR("Other:"));
+    TemperatureController *act = tempController[i];
         int temp = act->currentTemperatureC;
         if(temp < MIN_DEFECT_TEMPERATURE || temp > MAX_DEFECT_TEMPERATURE)
             Com::printF(Com::tTempSensorDefect);
         else
             Com::printF(Com::tTempSensorWorking);
-		if(act->flags & TEMPERATURE_CONTROLLER_FLAG_SENSDEFECT)
-			Com::printF(PSTR(" marked defect"));	
-		if(act->flags & TEMPERATURE_CONTROLLER_FLAG_SENSDECOUPLED)
-			Com::printF(PSTR(" marked decoupled"));
-		Com::println();			
+    if(act->flags & TEMPERATURE_CONTROLLER_FLAG_SENSDEFECT)
+      Com::printF(PSTR(" marked defect"));  
+    if(act->flags & TEMPERATURE_CONTROLLER_FLAG_SENSDECOUPLED)
+      Com::printF(PSTR(" marked decoupled"));
+    Com::println();     
     }
     Com::printErrorFLN(Com::tDryModeUntilRestart);
     return true;
@@ -1982,7 +2003,7 @@ int16_t read_max31855(uint8_t ss_pin)
 {
     uint32_t data = 0;
     int16_t temperature;
-    HAL::spiInit(2);
+    HAL::spiInit(1);
     HAL::digitalWrite(ss_pin, 0);  // enable TT_MAX31855
     HAL::delayMicroseconds(1);    // ensure 100ns delay - a bit extra is fine
 
@@ -2266,9 +2287,9 @@ TemperatureController heatedBedController = {PWM_HEATED_BED,HEATED_BED_SENSOR_TY
 
 #if FAN_THERMO_PIN > -1
 TemperatureController thermoController = {PWM_FAN_THERMO,FAN_THERMO_THERMISTOR_TYPE,THERMO_ANALOG_INDEX,0,0,0,0,0
-	#if TEMP_PID
-	,0,255,0,10,1,1,255,0,0,0,{0,0,0,0}
-	#endif
+  #if TEMP_PID
+  ,0,255,0,10,1,1,255,0,0,0,{0,0,0,0}
+  #endif
 ,0,0,0,0};
 #endif
 
@@ -2302,9 +2323,9 @@ TemperatureController *tempController[NUM_TEMPERATURE_LOOPS] =
 #endif
 #if FAN_THERMO_PIN > -1
 #if NUM_EXTRUDER == 0 && !HAVE_HEATED_BED
-	&thermoController
+  &thermoController
 #else
-	,&thermoController
+  ,&thermoController
 #endif
 #endif // FAN_THERMO_PIN
 };
