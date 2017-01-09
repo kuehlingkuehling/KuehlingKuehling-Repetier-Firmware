@@ -139,7 +139,7 @@ STEPPER_CURRENT_CONTROL
 
 #define ORIG_Z_STEP_PIN     2
 #define ORIG_Z_DIR_PIN      3
-#define ORIG_Z_MIN_PIN      32
+#define ORIG_Z_MIN_PIN      -1 // 32
 #define ORIG_Z_MAX_PIN      38
 #define ORIG_Z_ENABLE_PIN   15
 
@@ -185,14 +185,14 @@ STEPPER_CURRENT_CONTROL
 #define ORIG_E2_ENABLE_PIN  49
 
 // Extra driver on extension board
-#define ORIG_E3_STEP_PIN    35
-#define ORIG_E3_DIR_PIN     33
-#define ORIG_E3_ENABLE_PIN  37
+#define ORIG_E3_STEP_PIN    -1 //35
+#define ORIG_E3_DIR_PIN     -1 //33
+#define ORIG_E3_ENABLE_PIN  -1 //37
 
 // Extra driver on extension port
-#define ORIG_E4_STEP_PIN    29
-#define ORIG_E4_DIR_PIN     27
-#define ORIG_E4_ENABLE_PIN  31
+#define ORIG_E4_STEP_PIN    -1 //29
+#define ORIG_E4_DIR_PIN     -1 //27
+#define ORIG_E4_ENABLE_PIN  -1 //31
 
 #define EXTENSION_BOARD_MS1 67
 #define EXTENSION_BOARD_MS2 68
@@ -201,6 +201,11 @@ STEPPER_CURRENT_CONTROL
 // 25 -> not connected
 // To set microstepping on startup set START_GCODE to e.g.
 // "M42 P67 S255\nM42 P68 S255\nM42 P69 S255"
+
+#define VACUUM_TABLE_PIN  35
+#define LIGHTS_PIN  48
+#define VACUUM_SWITCH_PIN  33
+#define DOOR_SWITCH_PIN   32
 
 // SOFTWARE SPI SETTINGS FOR MAX31855 COMMUNICATION
 #define DUE_SOFTWARE_SPI
@@ -218,8 +223,8 @@ STEPPER_CURRENT_CONTROL
 #define LED_PIN 	   -1
 #define ORIG_FAN_PIN 	   9 
 #define ORIG_FAN2_PIN           8 
-#define ORIG_PS_ON_PIN          40
-#define KILL_PIN	   -1
+#define ORIG_PS_ON_PIN          -1
+#define KILL_PIN	   40
 #define SUICIDE_PIN    -1  //PIN that has to be turned on right after start, to keep power flowing.
 
 // 20 or 70
