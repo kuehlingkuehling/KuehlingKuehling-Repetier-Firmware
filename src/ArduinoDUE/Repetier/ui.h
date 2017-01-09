@@ -239,6 +239,9 @@
 #define UI_ACTION_LANGUAGE_TR           1710
 #define UI_ACTION_LANGUAGE_FI           1711
 
+#define UI_ACTION_DOOR_OPEN             1900 // door switch opened, send message to host
+#define UI_ACTION_DOOR_CLOSED           1901 // door switch closed, send message to host
+
 #define UI_ACTION_MENU_XPOS             4000
 #define UI_ACTION_MENU_YPOS             4001
 #define UI_ACTION_MENU_ZPOS             4002

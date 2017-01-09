@@ -3015,6 +3015,12 @@ int UIDisplay::executeAction(unsigned int action, bool allowMoves)
     else
         switch(action)
         {
+        case UI_ACTION_DOOR_OPEN:
+            Com::printFLN(PSTR("DoorSwitch:open"));
+            break;
+        case UI_ACTION_DOOR_CLOSED:
+            Com::printFLN(PSTR("DoorSwitch:closed"));
+            break;
         case UI_ACTION_OK:
             ret = okAction(allowMoves);
             break;

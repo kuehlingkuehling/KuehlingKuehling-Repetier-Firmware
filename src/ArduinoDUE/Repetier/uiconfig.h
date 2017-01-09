@@ -370,6 +370,9 @@ void uiInitKeys() {
   // Kill Pin
   UI_KEYS_INIT_BUTTON_LOW(KILL_PIN); // push button, connects gnd to pin  
 
+  // Door Switch
+  SET_INPUT(DOOR_SWITCH_PIN); // Sensor, HIGH when closed
+
 #endif
 }
 
@@ -383,6 +386,44 @@ void uiCheckKeys(uint16_t &action) {
     killed = true;
     uid.executeAction(UI_ACTION_RESET, true);
   }  
+
+/*
+ *
+ *   TODO
+ *   Aus irgendeinem Grund hängt sich der Arduino komplett auf,
+ *   wenn bei offener Tür der Emergency Stop ausgelöst wird...
+ *   Door Switch logik daher vorübergehend deaktiviert.
+ *
+ *
+
+
+  if (!killed)
+  {
+    // Door Switch
+    // push btns connected to VCC, open when activated
+    // (sending message over serial)
+    static boolean door_switch_open_previously = false; 
+    boolean        door_switch_open_now = false;
+
+    if ( READ(DOOR_SWITCH_PIN) == 1 ) { // Signal HIGH = door closed
+      door_switch_open_now = false;  
+    } else {
+      door_switch_open_now = true;
+    }
+
+    if ( !door_switch_open_previously && door_switch_open_now)
+    {
+      // door is now open
+      uid.executeAction(UI_ACTION_DOOR_OPEN, true);
+    }
+    else if ( door_switch_open_previously && !door_switch_open_now)
+    {
+      // door is now closed
+      uid.executeAction(UI_ACTION_DOOR_CLOSED, true);
+    }
+    door_switch_open_previously = door_switch_open_now;
+  }
+  */  
 #endif
 }
 inline void uiCheckSlowEncoder() {
