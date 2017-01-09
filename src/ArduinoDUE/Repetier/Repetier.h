@@ -25,6 +25,7 @@
 #include <math.h>
 #include <stdint.h>
 #define REPETIER_VERSION "0.92.8"
+#define KUEHLINGKUEHLING_FIRMWARE_VERSION "0.92-vp75-1.0.0-01"
 
 // ##########################################################################################
 // ##                                  Debug configuration                                 ##
