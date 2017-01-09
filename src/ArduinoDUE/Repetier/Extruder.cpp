@@ -20,6 +20,7 @@
 */
 
 #include "Repetier.h"
+#include "FastRunningMedian.h"
 
 uint8_t manageMonitor = 0; ///< Temp. we want to monitor with our host. 1+NUM_EXTRUDER is heated bed
 unsigned int counterPeriodical = 0;
@@ -37,7 +38,7 @@ uint8_t Extruder::activeMixingExtruder = 0;
 extern int16_t read_max6675(uint8_t ss_pin);
 #endif
 #ifdef SUPPORT_MAX31855
-extern int16_t read_max31855(uint8_t ss_pin);
+extern int16_t read_max31855(uint8_t ss_pin, fast8_t idx);
 #endif
 
 #if ANALOG_INPUTS > 0
@@ -1598,7 +1599,7 @@ void TemperatureController::updateCurrentTemperature()
 #endif
 #ifdef SUPPORT_MAX31855
     case 102: // MAX31855
-        currentTemperature = read_max31855(sensorPin);
+        currentTemperature = read_max31855(sensorPin, pwmIndex);
         break;
 #endif
     default:
@@ -1999,10 +2000,12 @@ int16_t read_max6675(uint8_t ss_pin)
 }
 #endif
 #ifdef SUPPORT_MAX31855
-int16_t read_max31855(uint8_t ss_pin)
+int16_t read_max31855(uint8_t ss_pin, fast8_t idx)
 {
+/*
     uint32_t data = 0;
     int16_t temperature;
+
     HAL::spiInit(1);
     HAL::digitalWrite(ss_pin, 0);  // enable TT_MAX31855
     HAL::delayMicroseconds(1);    // ensure 100ns delay - a bit extra is fine
@@ -2030,6 +2033,41 @@ int16_t read_max31855(uint8_t ss_pin)
         }
     }
     return temperature;
+*/
+    uint32_t data = 0;
+    int16_t temperature;
+    static FastRunningMedian<int16_t,25, 0> tempMedian[NUM_PWM];
+
+    HAL::spiInit(1);
+    HAL::digitalWrite(ss_pin, 0);  // enable TT_MAX31855
+    HAL::delayMicroseconds(1);    // ensure 100ns delay - a bit extra is fine
+
+    for (unsigned short byte = 0; byte < 4; byte++)
+    {
+        data <<= 8;
+        data |= HAL::spiReceive();
+    }
+
+    HAL::digitalWrite(ss_pin, 1);  // disable TT_MAX31855
+
+    //Process temp
+    if (data & 0x00010000)
+        return 20000; //Some form of error.
+    else
+    {
+        data = data >> 18;
+        temperature = data & 0x00001FFF;
+
+        if (data & 0x00002000)
+        {
+            data = ~data;
+            temperature = -1 * ((data & 0x00001FFF) + 1);
+        }
+    }
+
+    //Get running median of last few readings (filtering spikes and noise)
+    tempMedian[idx].addValue(temperature);
+    return tempMedian[idx].getMedian();;
 }
 #endif
 
