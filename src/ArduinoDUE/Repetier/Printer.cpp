@@ -1194,7 +1194,13 @@ void Printer::setup()
     setAutoretract(EEPROM_BYTE(AUTORETRACT_ENABLED));
     Commands::printCurrentPosition(PSTR("Printer::setup "));
 #endif // DRIVE_SYSTEM
-    Extruder::selectExtruderById(0);
+
+    // ensure all extruders are cycled through so the PID and PWM values are initialized    
+    Extruder::selectExtruderById(0);  // first extruder
+    Extruder::selectExtruderById(1);  // second extruder
+    Extruder::selectExtruderById(2);  // chamber heater
+    Extruder::selectExtruderById(0);  // back to first extruder
+
 #if FEATURE_WATCHDOG
     HAL::startWatchdog();
 #endif // FEATURE_WATCHDOG
