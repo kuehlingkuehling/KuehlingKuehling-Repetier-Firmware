@@ -46,6 +46,10 @@ const uint8 osAnalogInputChannels[] PROGMEM = ANALOG_INPUT_CHANNELS;
 volatile uint osAnalogInputValues[ANALOG_INPUTS];
 #endif
 
+// extruder cooling fan follow-on timers
+static millis_t extruderCoolerFollowOnTimer[NUM_EXTRUDER];
+
+
 #ifdef USE_GENERIC_THERMISTORTABLE_1
 short temptable_generic1[GENERIC_THERM_NUM_ENTRIES][2];
 #endif
@@ -99,29 +103,30 @@ void Extruder::manageTemperatures()
         // Handle automatic cooling of extruders
         if(controller < NUM_EXTRUDER)
         {
-#if ((SHARED_COOLER && NUM_EXTRUDER >= 2 && EXT0_EXTRUDER_COOLER_PIN == EXT1_EXTRUDER_COOLER_PIN) || SHARED_COOLER_BOARD_EXT) && EXT0_EXTRUDER_COOLER_PIN > -1
-            if(controller == 0)
+
+            if(act->currentTemperatureC < (EXTRUDER_FAN_COOL_TEMP - EXTRUDER_FAN_COOL_HYSTERESIS) && act->targetTemperatureC == 0)
             {
-                bool enable = false;
-                for(uint8_t j = 0; j < NUM_EXTRUDER; j++)
+ 
+            // extruder fan follow-on logic
+                // catch the moment where extruder fan would switch off and it is not yet in follow-on mode
+                if( extruder[controller].coolerPWM > 0 && extruderCoolerFollowOnTimer[controller] == 0 )
                 {
-                    if(tempController[j]->currentTemperatureC >= EXTRUDER_FAN_COOL_TEMP || tempController[j]->targetTemperatureC >= EXTRUDER_FAN_COOL_TEMP)
-                    {
-                        enable = true;
-                        break;
-                    }
+                     extruderCoolerFollowOnTimer[controller] = HAL::timeInMilliseconds();
                 }
-#if SHARED_COOLER_BOARD_EXT
-                if(pwm_pos[PWM_BOARD_FAN]) enable = true;
-#endif
-                extruder[0].coolerPWM = (enable ? extruder[0].coolerSpeed : 0);
-            } // controller == 0
-#else
-            if(act->currentTemperatureC < EXTRUDER_FAN_COOL_TEMP && act->targetTemperatureC == 0)
-                extruder[controller].coolerPWM = 0;
-            else
+
+                // only really shut off if follow-on duration has passed
+                if( ( extruderCoolerFollowOnTimer[controller] > 0 ) && ( ( HAL::timeInMilliseconds() - extruderCoolerFollowOnTimer[controller] ) > EXTRUDER_COOLER_FOLLOW_ON_TIME ) )
+                {
+                    extruder[controller].coolerPWM = 0;
+                    extruderCoolerFollowOnTimer[controller] = 0; // deactivate fan follow-on timer
+                }
+            // END extruder fan follow-on logic
+            }
+            else if(act->currentTemperatureC > (EXTRUDER_FAN_COOL_TEMP) || act->targetTemperatureC > 0)
+            {
                 extruder[controller].coolerPWM = extruder[controller].coolerSpeed;
-#endif // NUM_EXTRUDER
+                extruderCoolerFollowOnTimer[controller] = 0; // deactivate fan follow-on timer
+            }
         } // extruder controller
         // do skip temperature control while auto tuning is in progress
         if(controller == autotuneIndex) continue;
@@ -726,7 +731,11 @@ void Extruder::setTemperatureForExtruder(float temperatureInCelsius, uint8_t ext
     tc->updateTempControlVars();
     if(beep && temperatureInCelsius > MAX_ROOM_TEMPERATURE)
         tc->setAlarm(true);
-    if(temperatureInCelsius >= EXTRUDER_FAN_COOL_TEMP) extruder[extr].coolerPWM = extruder[extr].coolerSpeed;
+    if(temperatureInCelsius >= EXTRUDER_FAN_COOL_TEMP)
+    {
+       extruder[extr].coolerPWM = extruder[extr].coolerSpeed;
+       extruderCoolerFollowOnTimer[extr] = 0; // deactivate fan follow-on timer
+    }
     Com::printF(Com::tTargetExtr,extr,0);
     Com::printFLN(Com::tColon,temperatureInCelsius,0);
 #if FEATURE_DITTO_PRINTING
