@@ -776,6 +776,31 @@ uint8_t Printer::setDestinationStepsFromGCode(GCode *com)
 
 void Printer::setup()
 {
+// ensure to have the PSU OFF at start - ALWAYS and BEFORE ANYTHING ELSE  
+#if PS_ON_PIN > -1
+    SET_OUTPUT(PS_ON_PIN); //GND
+    WRITE(PS_ON_PIN, (POWER_INVERTING ? LOW : HIGH));
+#endif
+// ensure all critical output pins are initialized as OUTPUT and LOW at start
+    // chamber heater
+    SET_OUTPUT(EXT2_HEATER_PIN);
+    WRITE(EXT2_HEATER_PIN, LOW);
+    // vacuum table
+    SET_OUTPUT(VACUUM_TABLE_PIN);
+    WRITE(VACUUM_TABLE_PIN, LOW);
+    // heated bed
+    SET_OUTPUT(HEATED_BED_HEATER_PIN);
+    WRITE(HEATED_BED_HEATER_PIN, LOW);
+    // LED lights
+    SET_OUTPUT(LIGHTS_PIN);
+    WRITE(LIGHTS_PIN, LOW);
+// ensure all critical input pins are initialized as INPUT at start
+    // vacuum switch
+    SET_INPUT(VACUUM_SWITCH_PIN); 
+    // door switch
+    SET_INPUT(DOOR_SWITCH_PIN); 
+
+
     HAL::stopWatchdog();
 #if FEATURE_CONTROLLER == CONTROLLER_VIKI
     HAL::delayMilliseconds(100);
@@ -823,6 +848,7 @@ void Printer::setup()
 #else
 #if PS_ON_PIN > -1
     SET_OUTPUT(PS_ON_PIN); //GND
+    WRITE(PS_ON_PIN, (POWER_INVERTING ? LOW : HIGH));
     Printer::setPowerOn(false);
 #else
     Printer::setPowerOn(true);
