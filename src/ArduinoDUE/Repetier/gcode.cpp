@@ -390,6 +390,13 @@ void GCode::readFromSerial()
             }
             sendAsBinary = (commandReceiving[0] & 128) != 0;
         }
+
+//
+// disable binary protocol parsing completely due to bad implementation        
+//        
+sendAsBinary = false;        
+
+
         if(sendAsBinary)
         {
             if(commandsReceivingWritePosition < 2 ) continue;
