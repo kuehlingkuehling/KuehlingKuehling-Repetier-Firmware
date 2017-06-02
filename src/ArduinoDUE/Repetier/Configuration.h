@@ -438,7 +438,7 @@ It also can add a delay to wait for spindle to run on full speed.
 #define Y_BACKLASH 0
 #define Z_BACKLASH 0
 #define RAMP_ACCELERATION 1
-#define STEPPER_HIGH_DELAY 2
+#define STEPPER_HIGH_DELAY 4
 #define DIRECTION_DELAY 0
 #define STEP_DOUBLER_FREQUENCY 80000
 #define ALLOW_QUADSTEPPING 1
