@@ -882,21 +882,18 @@ void Printer::setup()
     SET_OUTPUT(Z_DIR_PIN);
 #endif
 
-    //Steppers default to enabled.
+    //Steppers default to disabled.
 #if X_ENABLE_PIN > -1
     SET_OUTPUT(X_ENABLE_PIN);
-    //WRITE(X_ENABLE_PIN, !X_ENABLE_ON);
-    WRITE(X_ENABLE_PIN, X_ENABLE_ON);
+    WRITE(X_ENABLE_PIN, !X_ENABLE_ON);
 #endif
 #if Y_ENABLE_PIN > -1
     SET_OUTPUT(Y_ENABLE_PIN);
-    //WRITE(Y_ENABLE_PIN, !Y_ENABLE_ON);
-    WRITE(Y_ENABLE_PIN, Y_ENABLE_ON);
+    WRITE(Y_ENABLE_PIN, !Y_ENABLE_ON);
 #endif
 #if Z_ENABLE_PIN > -1
     SET_OUTPUT(Z_ENABLE_PIN);
-    //WRITE(Z_ENABLE_PIN, !Z_ENABLE_ON);
-    WRITE(Z_ENABLE_PIN, Z_ENABLE_ON);
+    WRITE(Z_ENABLE_PIN, !Z_ENABLE_ON);
 #endif
 #if FEATURE_TWO_XSTEPPER
     SET_OUTPUT(X2_STEP_PIN);
