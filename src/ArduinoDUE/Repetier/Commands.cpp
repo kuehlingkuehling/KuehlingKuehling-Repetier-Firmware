@@ -1620,6 +1620,7 @@ void Commands::processMCode(GCode *com) {
             SET_OUTPUT(PS_ON_PIN); //GND
             Printer::setPowerOn(true);
             WRITE(PS_ON_PIN, (POWER_INVERTING ? HIGH : LOW));
+            HAL::delayMilliseconds(2000); // ensure PSU is ramped up
 #endif
             break;
         case 81: // M81 - ATX Power Off
