@@ -340,12 +340,20 @@ void Extruder::manageTemperatures()
 
     if(errorDetected == 0 && extruderTempErrors > 0)
         extruderTempErrors--;
+    if(Printer::isAnyTempsensorDefect())
+    {
+        for(uint8_t i = 0; i < NUM_TEMPERATURE_LOOPS; i++)
+        {
+            tempController[i]->targetTemperatureC = 0;
+            pwm_pos[tempController[i]->pwmIndex] = 0;
+        }
+    }
     if(newDefectFound)
     {
 		Com::printFLN(PSTR("Disabling all heaters due to detected sensor defect."));
         for(uint8_t i = 0; i < NUM_TEMPERATURE_LOOPS; i++)
         {
-			tempController[i]->targetTemperatureC = 0;
+			      tempController[i]->targetTemperatureC = 0;
             pwm_pos[tempController[i]->pwmIndex] = 0;
         }
 #if defined(KILL_IF_SENSOR_DEFECT) && KILL_IF_SENSOR_DEFECT > 0
