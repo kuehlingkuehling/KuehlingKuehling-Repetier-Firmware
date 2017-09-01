@@ -387,6 +387,10 @@ void uiCheckKeys(uint16_t &action) {
     uid.executeAction(UI_ACTION_RESET, true);
   }  
 
+  // IDEE: direkt via
+  //       HAL::resetHardware();
+  // resetten, statt über executeAction
+
 /*
  *
  *   TODO
