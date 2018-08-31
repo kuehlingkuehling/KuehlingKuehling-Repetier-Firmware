@@ -453,8 +453,8 @@ It also can add a delay to wait for spindle to run on full speed.
 #define ACCELERATION_FACTOR_TOP 100
 #define MAX_JERK 20
 #define MAX_ZJERK 0.3
-#define PRINTLINE_CACHE_SIZE 16
-#define MOVE_CACHE_LOW 10
+#define PRINTLINE_CACHE_SIZE 32
+#define MOVE_CACHE_LOW 14
 #define LOW_TICKS_PER_MOVE 250000
 #define FEATURE_TWO_XSTEPPER 0
 #define X2_STEP_PIN   ORIG_E1_STEP_PIN
