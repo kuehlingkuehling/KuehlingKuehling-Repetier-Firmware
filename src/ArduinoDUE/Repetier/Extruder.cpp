@@ -2012,41 +2012,20 @@ int16_t read_max6675(uint8_t ss_pin)
 #ifdef SUPPORT_MAX31855
 int16_t read_max31855(uint8_t ss_pin, fast8_t idx)
 {
-/*
-    uint32_t data = 0;
-    int16_t temperature;
-
-    HAL::spiInit(1);
-    HAL::digitalWrite(ss_pin, 0);  // enable TT_MAX31855
-    HAL::delayMicroseconds(1);    // ensure 100ns delay - a bit extra is fine
-
-    for (unsigned short byte = 0; byte < 4; byte++)
-    {
-        data <<= 8;
-        data |= HAL::spiReceive();
-    }
-
-    HAL::digitalWrite(ss_pin, 1);  // disable TT_MAX31855
-
-    //Process temp
-    if (data & 0x00010000)
-        return 20000; //Some form of error.
-    else
-    {
-        data = data >> 18;
-        temperature = data & 0x00001FFF;
-
-        if (data & 0x00002000)
-        {
-            data = ~data;
-            temperature = -1 * ((data & 0x00001FFF) + 1);
-        }
-    }
-    return temperature;
-*/
     uint32_t data = 0;
     int16_t temperature;
     static FastRunningMedian<int16_t,25, 0> tempMedian[NUM_PWM];
+    static unsigned long timeOfLastValidMeasurement[NUM_PWM];
+    static bool firstrun = true;
+    unsigned long currentTime;
+
+    // init timer variables
+    currentTime = millis();
+    if (firstrun)
+    {
+        timeOfLastValidMeasurement[NUM_PWM] == currentTime;
+        firstrun = false;
+    } 
 
     HAL::spiInit(1);
     HAL::digitalWrite(ss_pin, 0);  // enable TT_MAX31855
@@ -2060,11 +2039,23 @@ int16_t read_max31855(uint8_t ss_pin, fast8_t idx)
 
     HAL::digitalWrite(ss_pin, 1);  // disable TT_MAX31855
 
-    //Process temp
-    if (data & 0x00010000)
-        return 20000; //Some form of error.
-    else
+       
+    if (data & 0x00010000) // Some form of error.
     {
+        if ((currentTime - timeOfLastValidMeasurement[idx]) > 5000) // last good reading older than 5sec
+        { 
+          return 20000; //High temperature (5000°C) to trigger heater temperature safety function
+        }
+        else
+        {
+          //Get running median of last few readings (filtering spikes and noise), ignoring current failed measurement        
+          return tempMedian[idx].getMedian();
+        }
+    }    
+    else //Process temp
+    {
+        timeOfLastValidMeasurement[idx] = currentTime;
+
         data = data >> 18;
         temperature = data & 0x00001FFF;
 
@@ -2073,11 +2064,11 @@ int16_t read_max31855(uint8_t ss_pin, fast8_t idx)
             data = ~data;
             temperature = -1 * ((data & 0x00001FFF) + 1);
         }
-    }
 
-    //Get running median of last few readings (filtering spikes and noise)
-    tempMedian[idx].addValue(temperature);
-    return tempMedian[idx].getMedian();;
+        //Get running median of last few readings (filtering spikes and noise)
+        tempMedian[idx].addValue(temperature);
+        return tempMedian[idx].getMedian();
+    }
 }
 #endif
 
