@@ -136,22 +136,26 @@ void Extruder::manageTemperatures()
 
 
         // Check for obvious sensor errors
-        if(act->currentTemperatureC < MIN_DEFECT_TEMPERATURE || act->currentTemperatureC > MAX_DEFECT_TEMPERATURE)   // no temp sensor or short in sensor, disable heater
+        // skip T1, which is a dummy extruder logging HeadControlUnit internal temperature
+        if(controller != 1)
         {
-            errorDetected = 1;
-            if(extruderTempErrors < 10)    // Ignore short temporary failures
-                extruderTempErrors++;
-            else
-            {
-                act->flags |= TEMPERATURE_CONTROLLER_FLAG_SENSDEFECT;
-                if(!Printer::isAnyTempsensorDefect())
-                {
-          newDefectFound = true;
-                    Printer::setAnyTempsensorDefect();
-                    reportTempsensorError();
-                }
-                EVENT_HEATER_DEFECT(controller);
-            }
+          if(act->currentTemperatureC < MIN_DEFECT_TEMPERATURE || act->currentTemperatureC > MAX_DEFECT_TEMPERATURE)   // no temp sensor or short in sensor, disable heater
+          {
+              errorDetected = 1;
+              if(extruderTempErrors < 10)    // Ignore short temporary failures
+                  extruderTempErrors++;
+              else
+              {
+                  act->flags |= TEMPERATURE_CONTROLLER_FLAG_SENSDEFECT;
+                  if(!Printer::isAnyTempsensorDefect())
+                  {
+            newDefectFound = true;
+                      Printer::setAnyTempsensorDefect();
+                      reportTempsensorError();
+                  }
+                  EVENT_HEATER_DEFECT(controller);
+              }
+          }
         }
 
 #if HAVE_HEATED_BED
