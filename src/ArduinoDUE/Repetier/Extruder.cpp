@@ -37,7 +37,7 @@ uint8_t Extruder::activeMixingExtruder = 0;
 extern int16_t read_max6675(uint8_t ss_pin);
 #endif
 #ifdef SUPPORT_MAX31855
-extern int16_t read_max31855(uint8_t ss_pin);
+extern int16_t read_max31855(uint8_t ss_pin, fast8_t idx);
 #endif
 
 #if ANALOG_INPUTS > 0
@@ -1585,7 +1585,7 @@ void TemperatureController::updateCurrentTemperature()
 #endif
 #ifdef SUPPORT_MAX31855
     case 102: // MAX31855
-        currentTemperature = read_max31855(sensorPin);
+        currentTemperature = read_max31855(sensorPin, pwmIndex);
         break;
 #endif
     default:
@@ -1986,10 +1986,22 @@ int16_t read_max6675(uint8_t ss_pin)
 }
 #endif
 #ifdef SUPPORT_MAX31855
-int16_t read_max31855(uint8_t ss_pin)
+int16_t read_max31855(uint8_t ss_pin, fast8_t idx)
 {
     uint32_t data = 0;
-    int16_t temperature;
+    static int16_t temperature[NUM_PWM];
+    static unsigned long timeOfLastValidMeasurement[NUM_PWM];
+    static bool firstrun = true;
+    unsigned long currentTime;
+
+    // init timer variables
+    currentTime = millis();
+    if (firstrun)
+    {
+        timeOfLastValidMeasurement[NUM_PWM] == currentTime;
+        firstrun = false;
+    }
+
     HAL::spiInit(1);
     HAL::digitalWrite(ss_pin, 0);  // enable TT_MAX31855
     HAL::delayMicroseconds(1);    // ensure 100ns delay - a bit extra is fine
@@ -2002,21 +2014,32 @@ int16_t read_max31855(uint8_t ss_pin)
 
     HAL::digitalWrite(ss_pin, 1);  // disable TT_MAX31855
 
-    //Process temp
-    if (data & 0x00010000)
-        return 20000; //Some form of error.
-    else
+    
+    if (data & 0x00010000) // some kind of error
+        if ((currentTime - timeOfLastValidMeasurement[idx]) > 5000) // last good reading older than 5sec
+        { 
+          return 20000; // High temperature (5000°C) to trigger heater temperature safety function
+        }
+        else
+        {
+          // Report last valid reading, ignoring current failed measurement        
+          return temperature[idx];
+        }
+    else // process temp
     {
+        timeOfLastValidMeasurement[idx] = currentTime;
+
         data = data >> 18;
-        temperature = data & 0x00001FFF;
+        temperature[idx] = data & 0x00001FFF;
 
         if (data & 0x00002000)
         {
             data = ~data;
-            temperature = -1 * ((data & 0x00001FFF) + 1);
+            temperature[idx] = -1 * ((data & 0x00001FFF) + 1);
         }
+
+        return temperature[idx];
     }
-    return temperature;
 }
 #endif
 
